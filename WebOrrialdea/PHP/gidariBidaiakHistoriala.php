@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['gidari_nan'])) {
-    header("Location: saioaGidaria.php");
+    header("Location: PHP/saioaGidaria.php");
     exit;
 }
 
-require_once 'DatuBasea/konexioa.php';
+require_once '../DatuBasea/konexioa.php';
 $nan = $_SESSION['gidari_nan'];
 
 $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE gidari_nan = ?");
@@ -47,7 +47,7 @@ $bidaiak = $stmt->fetchAll();
             <?php endforeach; ?>
         </tbody>
     </table>
-    <a href="index.php" class="btn btn-secondary mb-3">Hasierara itzuli</a>
+    <a href="../index.php" class="btn btn-secondary mb-3">Hasierara itzuli</a>
 </div>
 </body>
 </html>

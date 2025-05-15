@@ -1,6 +1,6 @@
 <?php
 // Datu basearekin konexioa ezarri
-require_once 'DatuBasea/konexioa.php';
+require_once '../DatuBasea/konexioa.php';
 session_start();
 
 $mezuak = ""; // Erroreak edo mezuak gordetzeko aldagaia
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $_SESSION['nan'] = $nan;
         $_SESSION['izena'] = $izena;
         $_SESSION['abizena'] = $abizena;
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     } else {
         // Errorea datuak sartzean
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Erregistroa - alaikToMUGI</title>
-    <link rel="stylesheet" href="Estiloa/erregistroa.css">
+    <link rel="stylesheet" href="../Estiloa/erregistroa.css">
 </head>
 <body>
     <div class="form-container">
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         </form>
 
         <!-- Hasierara itzultzeko esteka -->
-        <p class="buelta"><a href="index.php">Itzuli hasierara</a></p>
+        <p class="buelta"><a href="../index.php">Itzuli hasierara</a></p>
     </div>
 </body>
 </html>

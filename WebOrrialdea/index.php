@@ -12,10 +12,20 @@ $rola = $_SESSION['rola'] ?? null;
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="Estiloa/estiloaOrokorra.css">
+
+  <style>
+    body {
+      background-image: url('Argazkia/taxi.jpg'); /* Aquí pon la ruta correcta */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+  </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm bg-white">
   <div class="container">
     <a class="navbar-brand" href="#">alaikToMUGI</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -27,18 +37,19 @@ $rola = $_SESSION['rola'] ?? null;
           <li class="nav-item"><span class="nav-link">👋 Kaixo, <?= htmlspecialchars($izena) ?>!</span></li>
 
           <?php if ($rola === 'erabiltzailea'): ?>
-            <li class="nav-item"><a class="nav-link" href="bidaiaSortu.php">Bidaia Programatu</a></li>
-            <li class="nav-item"><a class="nav-link" href="bidaienHistoriala.php">Nire Bidaiak</a></li>
+            <li class="nav-item"><a class="nav-link" href="PHP/bidaiaSortu.php">Bidaia Programatu</a></li>
+            <li class="nav-item"><a class="nav-link" href="PHP/bidaienHistoriala.php">Nire Bidaiak</a></li>
           <?php elseif ($rola === 'gidaria'): ?>
-            <li class="nav-item"><a class="nav-link" href="gidariaBidaienKudeaketa.php">Bidaien Kudeaketa</a></li>
-            <li class="nav-item"><a class="nav-link" href="gidariBidaiakHistoriala.php">Bidaien historiala</a></li>
+            <li class="nav-item"><a class="nav-link" href="PHP/gidariaBidaienKudeaketa.php">Bidaien Kudeaketa</a></li>
+            <li class="nav-item"><a class="nav-link" href="PHP/gidariBidaiakHistoriala.php">Bidaien historiala</a></li>
           <?php endif; ?>
 
-          <li class="nav-item"><a class="nav-link" href="saioaItxi.php">Saioa Itxi</a></li>
+          <li class="nav-item"><a class="nav-link" href="PHP/saioaItxi.php">Saioa Itxi</a></li>
         <?php else: ?>
-          <li class="nav-item"><a class="nav-link" href="erregistroaErabiltzailea.php">Erregistratu</a></li>
-          <li class="nav-item"><a class="nav-link" href="saioaErabiltzailea.php">Erabiltzaile Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="saioaGidaria.php">Gidari Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="PHP/erregistroaErabiltzailea.php">Erabiltzaile erregistroa</a></li>
+          <li class="nav-item"><a class="nav-link" href="PHP/saioaErabiltzailea.php">Erabiltzaile login</a></li>
+          <li class="nav-item"><a class="nav-link" href="PHP/saioaGidaria.php">Gidari login</a></li>
+          <li class="nav-item"><a class="nav-link" href="PHP/gidariErregistroa.php">Gidari erregistroa</a></li>
         <?php endif; ?>
       </ul>
     </div>
@@ -50,7 +61,7 @@ $rola = $_SESSION['rola'] ?? null;
     <h2>Bidaiatu erraz eta seguru alaikToMUGI-rekin</h2>
     <p>Taxi zerbitzu adimenduna, erabiltzaileentzat eta gidarientzat diseinatua.</p>
     <?php if (!$izena): ?>
-      <a href="saioaErabiltzailea.php" class="btn btn-warning btn-lg mt-4">Erabiltzaile moduan hasi</a>
+      <a href="PHP/saioaErabiltzailea.php" class="btn btn-warning btn-lg mt-4">Erabiltzaile moduan hasi</a>
     <?php endif; ?>
   </div>
 </section>
@@ -82,7 +93,7 @@ $rola = $_SESSION['rola'] ?? null;
   </div>
 </section>
 
-<footer class="text-center py-3">
+<footer class="text-center py-3 bg-white">
   &copy; 2025 <strong>alaikToMUGI</strong> - Taxi Zerbitzuak. Eskubide guztiak erreserbatuta.
 </footer>
 

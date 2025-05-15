@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Estilo pertsonalizatua -->
-    <link rel="stylesheet" href="Estiloa/bidaia.css">
+    <link rel="stylesheet" href="../Estiloa/bidaia.css">
 </head>
 <body class="bg-light">
 <?php
@@ -20,7 +20,7 @@
 
     $nan = $_SESSION['erabiltzaile_nan'];
 
-    require_once 'DatuBasea/konexioa.php';
+    require_once '../DatuBasea/konexioa.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = $_POST['data'];

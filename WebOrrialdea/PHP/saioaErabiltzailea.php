@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Saioa hasi - Erabiltzailea</title>
-    <link rel="stylesheet" href="Estiloa/saioa.css">
+    <link rel="stylesheet" href="../Estiloa/saioa.css">
 </head>
 <body>
 <?php
-    require_once 'DatuBasea/konexioa.php';
+    require_once '../DatuBasea/konexioa.php';
     session_start();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -34,7 +34,7 @@
                     $updateStmt->execute([$hashBerria, $nan]);
                 }
 
-                header("Location: index.php");
+                header("Location: ../index.php");
                 exit;
             } else {
                 $errorea = "NAN edo pasahitza okerra.";
@@ -58,6 +58,6 @@
     <input type="submit" value="Sartu">
 </form>
 
-<p><a href="index.php">Atzera hasierara</a></p>
+<p><a href="../index.php">Atzera hasierara</a></p>
 </body>
 </html>

@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>Bidaien Historiala</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./Estiloa/historiala.css">
+    <link rel="stylesheet" href="../Estiloa/historiala.css">
 </head>
 <body>
     <?php
-        require_once 'DatuBasea/konexioa.php';
+        require_once '../DatuBasea/konexioa.php';
         session_start();
 
         if (!isset($_SESSION['erabiltzaile_nan'])) {
-            header("Location: saioaErabiltzailea.php");
+            header("Location: PHP/saioaErabiltzailea.php");
             exit;
         }
 
@@ -71,7 +71,7 @@
                 <?php endif; ?>
 
                 <div class="text-center mt-4">
-                    <a href="index.php" class="btn btn-outline-primary">⬅ Itzuli hasierara</a>
+                    <a href="../index.php" class="btn btn-outline-primary">⬅ Itzuli hasierara</a>
                 </div>
             </div>
         </div>

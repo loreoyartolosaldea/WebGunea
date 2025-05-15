@@ -16,7 +16,7 @@ if (!isset($_SESSION['gidari_nan'])) {
 }
 
 $gidari_nan = $_SESSION['gidari_nan'];
-require_once 'DatuBasea/konexioa.php';
+require_once '../DatuBasea/konexioa.php';
 
 $msg = '';
 
@@ -64,9 +64,6 @@ if (isset($_POST['aukeratu'])) {
 ?>
 
 <div class="container mt-4">
-    
-    <a href="index.php" class="btn btn-secondary mb-3">Hasierara itzuli</a>
-
     <h2 class="mb-4">Programatutako bidaiak (aukeratu nahi duzuna)</h2>
 
     <?= $msg ?>
@@ -103,6 +100,7 @@ if (isset($_POST['aukeratu'])) {
             <div class="alert alert-info">Oraindik ez dago bidairik programatuta.</div>
         <?php endif; ?>
     <?php endif; ?>
+    <a href="index.php" class="btn btn-secondary mb-3">Hasierara itzuli</a>
 </div>
 
 <script>

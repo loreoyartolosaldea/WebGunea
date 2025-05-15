@@ -7,7 +7,7 @@
 </head>
 <body class="bg-light">
     <?php
-        require_once 'DatuBasea/konexioa.php';
+        require_once '../DatuBasea/konexioa.php';
 
         $mezua = '';
         $klasea = '';
@@ -103,7 +103,7 @@
         </div>
 
         <div class="card-footer text-center">
-            <a href="gidariHasiera.php" class="btn btn-outline-secondary mt-2">⬅ Itzuli hasierara</a>
+            <a href="index.php" class="btn btn-outline-secondary mt-2">⬅ Itzuli hasierara</a>
         </div>
     </div>
 </div>

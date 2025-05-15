@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'DatuBasea/konexioa.php';
+require_once '../DatuBasea/konexioa.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nan = trim($_POST['nan']);
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $updateStmt->execute([$hashBerria, $nan]);
             }
 
-            header("Location: index.php");
+            header("Location: ../index.php");
             exit;
         } else {
             $errorea = "NAN edo pasahitza okerra.";
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Gidaria Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="Estiloa/saioa.css">
+    <link rel="stylesheet" href="../Estiloa/saioa.css">
 </head>
 <body class="bg-light">
 <div class="container mt-5">
