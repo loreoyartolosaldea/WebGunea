@@ -1,0 +1,21 @@
+/* Estiloa/historiala.css */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #e6ecf0, #ffffff);
+}
+
+.card {
+    border-radius: 1rem;
+}
+
+.card-header {
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+    border-radius: 1rem 1rem 0 0;
+}
+
+.btn-outline-secondary,
+.btn-outline-primary {
+    border-radius: 50px;
+    padding: 10px 25px;
+}

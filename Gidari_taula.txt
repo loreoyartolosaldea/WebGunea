@@ -1,0 +1,7 @@
+Gidari taula:
+
+NAN		Izena		Abizena			Posta			Tel_zenb	Pasahitza	Kokapena	Lan_lekua	Matrikula
+
+34567890C	Mikel		Urrutikoetxea		mikel@gmail.com		700123456	mikel123	Bilbo		Bizkaia		6789YJK
+
+45678901D	Laura		Perez			laura@gmail.com		700987654	laura123	Donostia	Gipuzkoa	3902HTY

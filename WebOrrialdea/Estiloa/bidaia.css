@@ -1,0 +1,25 @@
+/* Estiloa/bidaia.css */
+
+body {
+    background: linear-gradient(to right, #f0f2f5, #ffffff);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+    border-radius: 1rem;
+}
+
+.card-header {
+    border-radius: 1rem 1rem 0 0;
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
