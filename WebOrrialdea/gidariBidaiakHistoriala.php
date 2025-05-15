@@ -37,7 +37,7 @@ $bidaiak = $stmt->fetchAll();
         <tbody>
             <?php foreach ($bidaiak as $bidaia): ?>
                 <tr>
-                    <td><?= $bidaia['data'] ?></td>
+                    <td><?= $bidaia['Data'] ?></td>
                     <td><?= $bidaia['ordua'] ?></td>
                     <td><?= $bidaia['hasiera'] ?></td>
                     <td><?= $bidaia['helmuga'] ?></td>
@@ -47,7 +47,7 @@ $bidaiak = $stmt->fetchAll();
             <?php endforeach; ?>
         </tbody>
     </table>
-    <a href="gidariLogout.php" class="btn btn-danger mt-3">Saioa Itxi</a>
+    <a href="index.php" class="btn btn-secondary mb-3">Hasierara itzuli</a>
 </div>
 </body>
 </html>

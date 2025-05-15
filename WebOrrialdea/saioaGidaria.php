@@ -3,18 +3,34 @@ session_start();
 require_once 'DatuBasea/konexioa.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nan = $_POST['nan'];
-    $pasahitza = $_POST['pasahitza'];
+    $nan = trim($_POST['nan']);
+    $pasahitza = trim($_POST['pasahitza']);
 
-    $stmt = $pdo->prepare("SELECT * FROM Gidaria WHERE NAN = ?");
+    $stmt = $pdo->prepare("SELECT NAN, Izena, Pasahitza FROM Gidaria WHERE NAN = ?");
     $stmt->execute([$nan]);
     $gidari = $stmt->fetch();
 
-    if ($gidari && password_verify($pasahitza, $gidari['Pasahitza'])) {
-        $_SESSION['gidari_nan'] = $gidari['NAN'];
-        $_SESSION['izena'] = $gidari['Izena'];
-        header("Location: index.php");
-        exit;
+    if ($gidari) {
+        $hashDB = $gidari['Pasahitza'];
+
+        if (password_verify($pasahitza, $hashDB) || $pasahitza === $hashDB) {
+            // Saioa hasi eta izena gorde
+            $_SESSION['gidari_nan'] = $gidari['NAN'];
+            $_SESSION['izena'] = $gidari['Izena'];
+            $_SESSION['rola'] = 'gidaria'; // GARRANTZITSUA
+
+            // Pasahitza plaintext bada → eguneratu hash-arekin
+            if ($pasahitza === $hashDB) {
+                $hashBerria = password_hash($pasahitza, PASSWORD_DEFAULT);
+                $updateStmt = $pdo->prepare("UPDATE Gidaria SET Pasahitza = ? WHERE NAN = ?");
+                $updateStmt->execute([$hashBerria, $nan]);
+            }
+
+            header("Location: index.php");
+            exit;
+        } else {
+            $errorea = "NAN edo pasahitza okerra.";
+        }
     } else {
         $errorea = "NAN edo pasahitza okerra.";
     }
@@ -27,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Gidaria Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Estiloa/saioa.css">
 </head>
 <body class="bg-light">
 <div class="container mt-5">
