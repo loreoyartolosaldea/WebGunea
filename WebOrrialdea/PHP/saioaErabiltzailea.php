@@ -1,63 +1,60 @@
 <!DOCTYPE html>
 <html lang="eu">
-<head>
-    <meta charset="UTF-8">
-    <title>Saioa hasi - Erabiltzailea</title>
-    <link rel="stylesheet" href="../Estiloa/saioa.css">
-</head>
-<body>
-<?php
-    require_once '../DatuBasea/konexioa.php';
-    session_start();
+    <head>
+        <meta charset="UTF-8">
+        <title>Saioa hasi - Erabiltzailea</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../Estiloa/autentifikazioa.css">
+    </head>
+    <body>
+        <?php
+            session_start();
+            require_once '../DatuBasea/konexioa.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nan = trim($_POST['nan']);
-        $pasahitza = trim($_POST['pasahitza']);
+            if ($_SERVER["REQUEST_METHOD"] == "POST") 
+            {
+                $nan = trim($_POST['nan']);
+                $pasahitza = trim($_POST['pasahitza']);
 
-        $stmt = $pdo->prepare("SELECT NAN, Izena, Pasahitza FROM Erabiltzailea WHERE NAN = ?");
-        $stmt->execute([$nan]);
-        $erabiltzailea = $stmt->fetch();
+                $stmt = $pdo->prepare("SELECT NAN, Izena, Pasahitza FROM Erabiltzailea WHERE NAN = ?");
+                $stmt->execute([$nan]);
+                $erabiltzailea = $stmt->fetch();
 
-        if ($erabiltzailea) {
-            $hashDB = $erabiltzailea['Pasahitza'];
+                if ($erabiltzailea && (password_verify($pasahitza, $erabiltzailea['Pasahitza']) || $pasahitza === $erabiltzailea['Pasahitza'])) 
+                {
+                    $_SESSION['erabiltzaile_nan'] = $nan;
+                    $_SESSION['izena'] = $erabiltzailea['Izena'];
+                    $_SESSION['rola'] = 'erabiltzailea';
 
-            if (password_verify($pasahitza, $hashDB) || $pasahitza === $hashDB) {
-                // Saioa hasi eta izena gorde
-                $_SESSION['erabiltzaile_nan'] = $nan;
-                $_SESSION['izena'] = $erabiltzailea['Izena'];
-                $_SESSION['rola'] = 'erabiltzailea'; // GARRANTZITSUA
+                    if ($pasahitza === $erabiltzailea['Pasahitza']) 
+                    {
+                        $hashBerria = password_hash($pasahitza, PASSWORD_DEFAULT);
+                        $pdo->prepare("UPDATE Erabiltzailea SET Pasahitza = ? WHERE NAN = ?")->execute([$hashBerria, $nan]);
+                    }
 
-                // Pasahitza plaintext bada → eguneratu hash-arekin
-                if ($pasahitza === $hashDB) {
-                    $hashBerria = password_hash($pasahitza, PASSWORD_DEFAULT);
-                    $updateStmt = $pdo->prepare("UPDATE Erabiltzailea SET Pasahitza = ? WHERE NAN = ?");
-                    $updateStmt->execute([$hashBerria, $nan]);
+                    header("Location: ../index.php");
+                    exit;
+                } else 
+                {
+                    $errorea = "NAN edo pasahitza okerra.";
                 }
-
-                header("Location: ../index.php");
-                exit;
-            } else {
-                $errorea = "NAN edo pasahitza okerra.";
             }
-        } else {
-            $errorea = "NAN edo pasahitza okerra.";
-        }
-    }
-?>
-<h2>Saioa hasi (Erabiltzailea)</h2>
-
-<?php if (isset($errorea)) echo "<p style='color:red;'>$errorea</p>"; ?>
-
-<form method="post">
-    <label for="nan">NAN:</label>
-    <input type="text" name="nan" required><br>
-
-    <label for="pasahitza">Pasahitza:</label>
-    <input type="password" name="pasahitza" required><br>
-
-    <input type="submit" value="Sartu">
-</form>
-
-<p><a href="../index.php">Atzera hasierara</a></p>
-</body>
+        ?>
+        <div class="card">
+            <div class="card-header">🔐 Erabiltzailearen Saioa</div>
+            <div class="card-body">
+                <?php if (isset($errorea)): ?>
+                    <div class="alert alert-danger"><?= $errorea ?></div>
+                <?php endif; ?>
+                <form method="post">
+                    <input class="form-control mb-3" type="text" name="nan" placeholder="NAN" required>
+                    <input class="form-control mb-3" type="password" name="pasahitza" placeholder="Pasahitza" required>
+                    <button class="btn btn-primary w-100" type="submit">Sartu</button>
+                </form>
+                <div class="buelta mt-4">
+                    <a href="../index.php">⬅ Itzuli hasierara</a>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

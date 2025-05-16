@@ -1,0 +1,65 @@
+/* Fondo base claro */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor general de formularios */
+.card {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Título en encabezado */
+.card-header {
+    background-color: #f0ad4e !important;
+    color: #fff !important;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Botón principal estilo amarillo */
+.btn-primary,
+.btn-warning {
+    background-color: #f0ad4e;
+    border: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.btn-primary:hover,
+.btn-warning:hover {
+    background-color: #d9951a;
+}
+
+/* Inputs */
+.form-control {
+    font-size: 1rem;
+}
+
+/* Alertas de error */
+.alert-danger {
+    font-weight: 600;
+}
+
+/* Enlace de vuelta */
+.buelta {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.buelta a {
+    color: #f0ad4e;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.buelta a:hover {
+    text-decoration: underline;
+}

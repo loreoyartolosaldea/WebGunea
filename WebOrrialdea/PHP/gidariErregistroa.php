@@ -1,111 +1,91 @@
 <!DOCTYPE html>
 <html lang="eu">
-<head>
-    <meta charset="UTF-8">
-    <title>Gidaria Erregistroa</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
-<body class="bg-light">
-    <?php
-        require_once '../DatuBasea/konexioa.php';
+    <head>
+        <meta charset="UTF-8">
+        <title>Gidaria Erregistroa</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../Estiloa/autentifikazioa.css">
+    </head>
+    <body>
+        <?php
+            require_once '../DatuBasea/konexioa.php';
+            session_start();
 
-        $mezua = '';
-        $klasea = '';
+            $mezua = '';
+            $klasea = '';
 
-        // Formularioa bidali denean
-        if ($_SERVER["REQUEST_METHOD"] == "POST") 
-        {
-            $nan = $_POST['nan'];
-            $izena = $_POST['izena'];
-            $abizena = $_POST['abizena'];
-            $posta = $_POST['posta'];
-            $telefonoa = $_POST['telefonoa'];
-            $pasahitza = password_hash($_POST['pasahitza'], PASSWORD_DEFAULT); // Pasahitza zifratuta gorde
-            $kokapena = $_POST['kokapena'];
-            $lan_lekua = $_POST['lan_lekua'];
-            $matrikula = $_POST['matrikula'];
+            if ($_SERVER["REQUEST_METHOD"] == "POST") 
+            {
+                $nan = $_POST['nan'];
+                $izena = $_POST['izena'];
+                $abizena = $_POST['abizena'];
+                $posta = $_POST['posta'];
+                $telefonoa = $_POST['telefonoa'];
+                $pasahitza = password_hash($_POST['pasahitza'], PASSWORD_DEFAULT);
+                $kokapena = $_POST['kokapena'];
+                $lan_lekua = $_POST['lan_lekua'];
+                $matrikula = $_POST['matrikula'];
 
-            // Datuak txertatzeko SQLa
-            $stmt = $pdo->prepare("INSERT INTO Gidaria (NAN, Izena, Abizena, Posta, Tel_zenb, Pasahitza, Kokapena, Lan_lekua, Matrikula) 
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt = $pdo->prepare("INSERT INTO Gidaria (NAN, Izena, Abizena, Posta, Tel_zenb, Pasahitza, Kokapena, Lan_lekua, Matrikula) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            try {
-                $stmt->execute([$nan, $izena, $abizena, $posta, $telefonoa, $pasahitza, $kokapena, $lan_lekua, $matrikula]);
-                $mezua = "✅ Gidaria erregistratu da!";
-                $klasea = "success";
-            } catch (PDOException $e) {
-                $mezua = "❌ Errorea: " . $e->getMessage();
-                $klasea = "danger";
+                try 
+                {
+                    $stmt->execute([$nan, $izena, $abizena, $posta, $telefonoa, $pasahitza, $kokapena, $lan_lekua, $matrikula]);
+
+                    // Saioa hasi automatikoki
+                    $_SESSION['gidari_nan'] = $nan;
+                    $_SESSION['izena'] = $izena;
+                    $_SESSION['rola'] = 'gidaria';
+
+                    // Bideratu hasierako orrira
+                    header("Location: ../index.php");
+                    exit;
+
+                } catch (PDOException $e) 
+                {
+                    $mezua = "❌ Errorea: " . $e->getMessage();
+                    $klasea = "danger";
+                }
             }
-        }
-    ?>
-<div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-header bg-primary text-white text-center">
-            <h3>📝 Gidaria Erregistroa</h3>
+        ?>
+
+        <div class="card mt-4 mx-auto" style="max-width: 500px;">
+            <div class="card-header text-white bg-primary text-center">
+                <h4>🛵 Gidariaren Erregistroa</h4>
+            </div>
+            <div class="card-body">
+                <?php if (!empty($mezua)): ?>
+                    <div class="alert alert-<?= $klasea ?>"><?= $mezua ?></div>
+                <?php endif; ?>
+
+                <form method="post">
+                    <input type="text" name="nan" class="form-control mb-3" placeholder="NAN" required>
+                    <input type="text" name="izena" class="form-control mb-3" placeholder="Izena" required>
+                    <input type="text" name="abizena" class="form-control mb-3" placeholder="Abizena" required>
+                    <input type="email" name="posta" class="form-control mb-3" placeholder="Posta elektronikoa" required>
+                    <input type="text" name="telefonoa" class="form-control mb-3" placeholder="Telefono zenbakia" required>
+                    <input type="password" name="pasahitza" class="form-control mb-3" placeholder="Pasahitza" required>
+                    <input type="text" name="kokapena" class="form-control mb-3" placeholder="Kokapena" required>
+
+                    <!-- Lan lekua (select ordenatua) -->
+                    <select name="lan_lekua" class="form-select mb-3" required>
+                        <option value="" disabled selected>-- Aukeratu lan lekua --</option>
+                        <option value="Araba">Araba</option>
+                        <option value="Bizkaia">Bizkaia</option>
+                        <option value="Gipuzkoa">Gipuzkoa</option>
+                        <option value="Nafarroa">Nafarroa</option>
+                    </select>
+
+                    <input type="text" name="matrikula" class="form-control mb-3" placeholder="Ibilgailuaren matrikula" required>
+
+                    <button type="submit" class="btn btn-warning w-100">Erregistratu</button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <a href="../index.php" class="btn btn-outline-secondary">⬅ Itzuli hasierara</a>
+                </div>
+            </div>
         </div>
-
-        <div class="card-body">
-            <?php if (!empty($mezua)): ?>
-                <div class="alert alert-<?= $klasea ?>"><?= $mezua ?></div>
-            <?php endif; ?>
-
-            <form method="post">
-                <div class="mb-3">
-                    <label for="nan" class="form-label">NAN:</label>
-                    <input type="text" name="nan" id="nan" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="izena" class="form-label">Izena:</label>
-                    <input type="text" name="izena" id="izena" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="abizena" class="form-label">Abizena:</label>
-                    <input type="text" name="abizena" id="abizena" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="posta" class="form-label">Posta elektronikoa:</label>
-                    <input type="email" name="posta" id="posta" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="telefonoa" class="form-label">Telefono zenbakia:</label>
-                    <input type="text" name="telefonoa" id="telefonoa" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="pasahitza" class="form-label">Pasahitza:</label>
-                    <input type="password" name="pasahitza" id="pasahitza" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="kokapena" class="form-label">Kokapena:</label>
-                    <input type="text" name="kokapena" id="kokapena" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="lan_lekua" class="form-label">Lan lekua:</label>
-                    <input type="text" name="lan_lekua" id="lan_lekua" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="matrikula" class="form-label">Ibilgailuaren matrikula:</label>
-                    <input type="text" name="matrikula" id="matrikula" class="form-control" required>
-                </div>
-
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-success">Erregistratu</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="card-footer text-center">
-            <a href="index.php" class="btn btn-outline-secondary mt-2">⬅ Itzuli hasierara</a>
-        </div>
-    </div>
-</div>
-</body>
+    </body>
 </html>
