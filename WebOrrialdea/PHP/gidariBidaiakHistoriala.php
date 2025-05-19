@@ -9,21 +9,22 @@
     <body class="bg-light">
         <?php
             session_start();
-            if (!isset($_SESSION['gidari_nan'])) 
+            if (!isset($_SESSION['Gidari_nan'])) 
             {
                 header("Location: ../PHP/saioaGidaria.php");
                 exit;
             }
+            
 
-            require_once '../DatuBasea/konexioa.php';
-            $nan = $_SESSION['gidari_nan'];
+            require_once '../DatuBaseaKonexioa/konexioa.php';
+            $nan = $_SESSION['Gidari_nan'];
 
-            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE gidari_nan = ?");
+            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ?");
             $stmt->execute([$nan]);
             $bidaiak = $stmt->fetchAll();
         ?>
         <div class="container mt-5">
-            <h2>🚕 Nire Bidaiak (<?= htmlspecialchars($_SESSION['izena']) ?>)</h2>
+            <h2>Nire Bidaiak (<?= htmlspecialchars($_SESSION['izena']) ?>)</h2>
             <table class="table table-bordered table-hover mt-3">
                 <thead class="table-dark">
                     <tr>

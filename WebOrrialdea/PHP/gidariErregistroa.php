@@ -8,7 +8,7 @@
     </head>
     <body>
         <?php
-            require_once '../DatuBasea/konexioa.php';
+            require_once '../DatuBaseaKonexioa/konexioa.php';
             session_start();
 
             $mezua = '';
@@ -34,7 +34,7 @@
                     $stmt->execute([$nan, $izena, $abizena, $posta, $telefonoa, $pasahitza, $kokapena, $lan_lekua, $matrikula]);
 
                     // Saioa hasi automatikoki
-                    $_SESSION['gidari_nan'] = $nan;
+                    $_SESSION['Gidari_nan'] = $nan;
                     $_SESSION['izena'] = $izena;
                     $_SESSION['rola'] = 'gidaria';
 
@@ -44,7 +44,7 @@
 
                 } catch (PDOException $e) 
                 {
-                    $mezua = "❌ Errorea: " . $e->getMessage();
+                    $mezua = "Errorea: " . $e->getMessage();
                     $klasea = "danger";
                 }
             }
@@ -52,7 +52,7 @@
 
         <div class="card mt-4 mx-auto" style="max-width: 500px;">
             <div class="card-header text-white bg-primary text-center">
-                <h4>🛵 Gidariaren Erregistroa</h4>
+                <h4>Gidariaren Erregistroa</h4>
             </div>
             <div class="card-body">
                 <?php if (!empty($mezua)): ?>

@@ -95,6 +95,9 @@ $rola = $_SESSION['rola'] ?? null;
           <li class="nav-item"><a class="nav-link" href="./PHP/saioaErabiltzailea.php">Erabiltzaile login</a></li>
           <li class="nav-item"><a class="nav-link" href="./PHP/saioaGidaria.php">Gidari login</a></li>
           <li class="nav-item"><a class="nav-link" href="./PHP/gidariErregistroa.php">Gidari erregistroa</a></li>
+          <li class="nav-item"><a class="nav-link" href="./PHP/norGara.php">Nor gara</a></li>
+          <li class="nav-item"><a class="nav-link" href="./PHP/kokapena.php">Kokapena</a></li>
+          <li class="nav-item"><a class="nav-link active" href="./PHP/kontaktua.php">Kontaktua</a></li>
         <?php endif; ?>
       </ul>
     </div>
@@ -155,5 +158,30 @@ $rola = $_SESSION['rola'] ?? null;
 
 <!-- 📜 Scripts -->
 <script src="Creative/js/scripts.js"></script>
+
+<!-- Footer -->
+<footer class="footer bg-dark text-white py-4 mt-auto">
+  <div class="container text-center">
+    <div class="mb-3">
+      <a href="https://www.facebook.com/alaiktoMUGI" target="_blank" class="text-white mx-3 fs-4" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://twitter.com/alaiktoMUGI" target="_blank" class="text-white mx-3 fs-4" aria-label="Twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.instagram.com/alaiktoMUGI" target="_blank" class="text-white mx-3 fs-4" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://www.linkedin.com/company/alaiktoMUGI" target="_blank" class="text-white mx-3 fs-4" aria-label="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </div>
+    <p class="mb-0 small">© 2025 alaiktoMUGI. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Añadir FontAwesome para los iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
 </body>
 </html>

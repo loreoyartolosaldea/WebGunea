@@ -10988,3 +10988,57 @@ header.masthead h1, header.masthead .h1 {
 #portfolio .container-fluid .portfolio-box:hover .portfolio-box-caption, #portfolio .container-sm .portfolio-box:hover .portfolio-box-caption, #portfolio .container-md .portfolio-box:hover .portfolio-box-caption, #portfolio .container-lg .portfolio-box:hover .portfolio-box-caption, #portfolio .container-xl .portfolio-box:hover .portfolio-box-caption, #portfolio .container-xxl .portfolio-box:hover .portfolio-box-caption {
   opacity: 1;
 }
+
+/* Estiloa/EstiloaIndex.css */
+header.masthead {
+  background-image: url('Argazkia/taxi.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  position: relative;
+}
+
+/* 🧊 Estilo para navbar translúcido y borroso */
+#mainNav {
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+}
+
+#mainNav .nav-link {
+  color: #000 !important;
+  font-weight: 500;
+}
+
+#mainNav .navbar-brand {
+  color: #000 !important;
+  font-weight: bold;
+}
+
+.masthead h1, .masthead p {
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.divider {
+  border-top: 2px solid #fff;
+  opacity: 0.6;
+  width: 60px;
+  margin: 20px auto;
+}
+
+.fondoko_esaldia {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  display: inline-block;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  font-size: 1.2rem;
+}

@@ -9,7 +9,8 @@
     <body>
         <?php
             session_start();
-            require_once '../DatuBasea/konexioa.php';
+            
+            require_once '../DatuBaseaKonexioa/konexioa.php';
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") 
             {
