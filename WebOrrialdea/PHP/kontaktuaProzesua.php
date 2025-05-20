@@ -27,7 +27,7 @@ if (!empty($errors)) {
 }
 
 // Si no hay errores, enviamos el email (puedes cambiar a tu mail real)
-$to = "loreaoiarzabal1@gmail.com";
+$to = "";
 $subject = "Kontaktua alaiktoMUGI webgunetik - $izena";
 $message = "Izena: $izena\nEmaila: $email\nMezua:\n$mezu";
 $headers = "From: $email\r\nReply-To: $email\r\n";

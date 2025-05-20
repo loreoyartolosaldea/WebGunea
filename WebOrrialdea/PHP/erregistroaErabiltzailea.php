@@ -92,7 +92,7 @@
 
                 <!-- Hasierara itzultzeko esteka -->
                 <div class="buelta mt-4 text-center">
-                    <a href="../index.php">⬅ Itzuli hasierara</a>
+                    <a href="../index.php">Itzuli hasierara</a>
                 </div>
             </div>
         </div>

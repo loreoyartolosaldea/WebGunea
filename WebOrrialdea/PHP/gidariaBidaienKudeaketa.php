@@ -13,7 +13,7 @@
             // Gidariaren NAN sesioan dagoen egiaztatu
             if (!isset($_SESSION['Gidari_nan'])) 
             {
-                echo "<div class='alert alert-danger m-3'>Ezin da NAN eskuratu. Saioa hasi berriro.</div>";
+                echo "<div class='alert alert-danger m-3'>Ezin da NAN-a eskuratu. Saioa hasi berriro.</div>";
                 exit;
             }
 
@@ -75,7 +75,7 @@
                         if ($bidaiOnartuDaiteke) 
                         {
                             $stmt = $pdo->prepare("UPDATE Bidaia SET Gidari_nan = ?, egoera = 'unekoa' WHERE Bidaia_id = ?");
-                            $stmt->execute([$gidari_nan, $hautatutakoId]);
+                            $stmt->execute([$Gidari_nan, $hautatutakoId]);
 
                             $mezua = "<div class='alert alert-success'>Bidaia hartu duzu arrakastaz.</div>";
 
@@ -85,7 +85,7 @@
                             $bidaiak = $stmt->fetchAll();
 
                             $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? AND egoera = 'unekoa'");
-                            $stmt->execute([$gidari_nan]);
+                            $stmt->execute([$Gidari_nan]);
                             $bidai_aktiboa = $stmt->fetch();
                         } 
                         else 
@@ -141,7 +141,7 @@
             <?php endif; ?>
 
             <!-- Hasierara bueltatzeko botoia -->
-            <a href="../index.php" class="btn btn-secondary mb-3">⬅ Hasierara itzuli</a>
+            <a href="../index.php" class="btn btn-secondary mb-3">Hasierara itzuli</a>
         </div>
 
         <!-- Aukeraketa baieztatzeko JavaScript -->

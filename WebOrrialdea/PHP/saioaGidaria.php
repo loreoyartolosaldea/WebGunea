@@ -2,15 +2,16 @@
 <html lang="eu">
     <head>
         <meta charset="UTF-8">
-        <title>Gidaria Saioa</title>
+        <title>Gidariaren Saioa</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../Estiloa/autentifikazioa.css">
     </head>
     <body>
         <?php
             session_start();
-            
             require_once '../DatuBaseaKonexioa/konexioa.php';
+
+            $errorea = "";
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") 
             {
@@ -21,41 +22,69 @@
                 $stmt->execute([$nan]);
                 $gidari = $stmt->fetch();
 
-                if ($gidari && (password_verify($pasahitza, $gidari['Pasahitza']) || $pasahitza === $gidari['Pasahitza'])) 
+                if ($gidari && $pasahitza === $gidari['Pasahitza']) 
                 {
-                    $_SESSION['gidari_nan'] = $gidari['NAN'];
+                    // Saioa ondo hasi da
+                    $_SESSION['Gidari_nan'] = $gidari['NAN'];
                     $_SESSION['izena'] = $gidari['Izena'];
                     $_SESSION['rola'] = 'gidaria';
-
-                    if ($pasahitza === $gidari['Pasahitza']) 
-                    {
-                        $hashBerria = password_hash($pasahitza, PASSWORD_DEFAULT);
-                        $pdo->prepare("UPDATE Gidaria SET Pasahitza = ? WHERE NAN = ?")->execute([$hashBerria, $nan]);
-                    }
 
                     header("Location: ../index.php");
                     exit;
                 } else 
                 {
-                    $errorea = "NAN edo pasahitza okerra.";
+                    $errorea = "NAN edo pasahitza ez da zuzena.";
                 }
             }
         ?>
-        <div class="card">
-            <div class="card-header">🛵 Gidariaren Saioa</div>
+
+        <div class="card mt-5 mx-auto" style="max-width: 400px;">
+            <div class="card-header text-white bg-primary text-center">
+                <h4>🛵 Gidariaren Saioa Hasi</h4>
+            </div>
             <div class="card-body">
-                <?php if (isset($errorea)): ?>
-                    <div class="alert alert-danger"><?= $errorea ?></div>
+                <?php if (!empty($errorea)): ?>
+                    <div class="alert alert-danger text-center"><?= $errorea ?></div>
                 <?php endif; ?>
-                <form method="post">
-                    <input class="form-control mb-3" type="text" name="nan" placeholder="NAN" required>
-                    <input class="form-control mb-3" type="password" name="pasahitza" placeholder="Pasahitza" required>
-                    <button class="btn btn-primary w-100" type="submit">Saioa hasi</button>
+
+                <form method="post" class="needs-validation" novalidate>
+                    <label for="nan" class="form-label">NAN</label>
+                    <input class="form-control mb-3" type="text" id="nan" name="nan" placeholder="Zure NANa sartu" required>
+
+                    <label for="pasahitza" class="form-label">Pasahitza</label>
+                    <input class="form-control mb-3" type="password" id="pasahitza" name="pasahitza" placeholder="Zure pasahitza sartu" required>
+
+                    <button class="btn btn-warning w-100" type="submit">Saioa hasi</button>
                 </form>
-                <div class="buelta mt-4">
+
+                <div class="buelta mt-4 text-center">
                     <a href="../index.php">⬅ Itzuli hasierara</a>
                 </div>
             </div>
         </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Balidazioa -->
+        <script>
+            (() => 
+            {
+                'use strict';
+                const forms = document.querySelectorAll('.needs-validation');
+                Array.from(forms).forEach(form => 
+                {
+                    form.addEventListener('submit', event => 
+                    {
+                        if (!form.checkValidity()) 
+                        {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+        </script>
     </body>
 </html>

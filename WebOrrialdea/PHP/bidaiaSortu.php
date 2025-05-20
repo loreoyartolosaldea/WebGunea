@@ -214,7 +214,7 @@
 
                 <!-- Karta oina -->
                 <div class="card-footer text-center">
-                    <a href="../index.php" class="btn btn-outline-secondary">⬅ Hasierara itzuli</a>
+                    <a href="../index.php" class="btn btn-outline-secondary"> Hasierara itzuli</a>
                 </div>
             </div>
         </div>

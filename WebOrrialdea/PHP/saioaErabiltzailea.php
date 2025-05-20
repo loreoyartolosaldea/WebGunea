@@ -3,59 +3,115 @@
     <head>
         <meta charset="UTF-8">
         <title>Saioa hasi - Erabiltzailea</title>
+        
+        <!-- Bootstrap estiloak txertatzen dira -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Estilo pertsonalizatua kargatzen da -->
         <link rel="stylesheet" href="../Estiloa/autentifikazioa.css">
     </head>
     <body>
         <?php
+            // Saioaren hasiera
             session_start();
-            
+
+            // Datu-basearekin konexioa lortzen da
             require_once '../DatuBaseaKonexioa/konexioa.php';
 
+            // Erroreak erakusteko aldagaia
+            $errorea = "";
+
+            // Formularioa bidali bada (POST bidez)
             if ($_SERVER["REQUEST_METHOD"] == "POST") 
             {
+                // Erabiltzaileak sartutako NAN eta pasahitza jasotzen dira
                 $nan = trim($_POST['nan']);
                 $pasahitza = trim($_POST['pasahitza']);
 
+                // NAN horrekin datu-basean erabiltzailea bilatzen da
                 $stmt = $pdo->prepare("SELECT NAN, Izena, Pasahitza FROM Erabiltzailea WHERE NAN = ?");
                 $stmt->execute([$nan]);
                 $erabiltzailea = $stmt->fetch();
 
-                if ($erabiltzailea && (password_verify($pasahitza, $erabiltzailea['Pasahitza']) || $pasahitza === $erabiltzailea['Pasahitza'])) 
+                // Erabiltzailea existitzen bada
+                if ($erabiltzailea) 
                 {
-                    $_SESSION['erabiltzaile_nan'] = $nan;
-                    $_SESSION['izena'] = $erabiltzailea['Izena'];
-                    $_SESSION['rola'] = 'erabiltzailea';
+                    // Datu-baseko pasahitza eskuratzen da
+                    $pasahitzaBD = $erabiltzailea['Pasahitza'];
 
-                    if ($pasahitza === $erabiltzailea['Pasahitza']) 
+                    // Pasahitzak berdinak badira (testu arrunta)
+                    if ($pasahitza === $pasahitzaBD) 
                     {
-                        $hashBerria = password_hash($pasahitza, PASSWORD_DEFAULT);
-                        $pdo->prepare("UPDATE Erabiltzailea SET Pasahitza = ? WHERE NAN = ?")->execute([$hashBerria, $nan]);
-                    }
+                        // Saioan erabiltzailearen informazioa gordetzen da
+                        $_SESSION['erabiltzaile_nan'] = $erabiltzailea['NAN'];
+                        $_SESSION['izena'] = $erabiltzailea['Izena'];
+                        $_SESSION['rola'] = 'erabiltzailea';
 
-                    header("Location: ../index.php");
-                    exit;
+                        // Hasiera orrira birbideratzen da
+                        header("Location: ../index.php");
+                        exit;
+                    } else 
+                    {
+                        // Pasahitza okerra bada
+                        $errorea = "NAN edo pasahitza okerra.";
+                    }
                 } else 
                 {
+                    // NAN hori ez badago erregistratuta
                     $errorea = "NAN edo pasahitza okerra.";
                 }
             }
         ?>
-        <div class="card">
-            <div class="card-header">🔐 Erabiltzailearen Saioa</div>
+
+        <!-- Login orria HTML bidez -->
+        <div class="card mt-5 mx-auto" style="max-width: 400px;">
+            <div class="card-header text-white bg-primary text-center">
+                <h4>Erabiltzailearen Saioa</h4>
+            </div>
             <div class="card-body">
-                <?php if (isset($errorea)): ?>
-                    <div class="alert alert-danger"><?= $errorea ?></div>
+                <!-- Errorea badago, bistaratzen da -->
+                <?php if (!empty($errorea)): ?>
+                    <div class="alert alert-danger text-center"><?= $errorea ?></div>
                 <?php endif; ?>
-                <form method="post">
+
+                <!-- Saioa hasteko formularioa -->
+                <form method="post" class="needs-validation" novalidate>
                     <input class="form-control mb-3" type="text" name="nan" placeholder="NAN" required>
                     <input class="form-control mb-3" type="password" name="pasahitza" placeholder="Pasahitza" required>
-                    <button class="btn btn-primary w-100" type="submit">Sartu</button>
+                    
+                    <!-- Bidali botoia -->
+                    <button class="btn btn-warning w-100" type="submit">Sartu</button>
                 </form>
-                <div class="buelta mt-4">
+
+                <!-- Hasierara itzultzeko esteka -->
+                <div class="text-center mt-4">
                     <a href="../index.php">⬅ Itzuli hasierara</a>
                 </div>
             </div>
         </div>
+
+        <!-- Bootstrap-eko scriptak -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Formularioaren balidazioa Bootstrap erabiliz -->
+        <script>
+            (() => 
+            {
+                'use strict';
+                const forms = document.querySelectorAll('.needs-validation');
+                Array.from(forms).forEach(form => 
+                {
+                    form.addEventListener('submit', event => 
+                    {
+                        if (!form.checkValidity()) 
+                        {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+        </script>
     </body>
 </html>

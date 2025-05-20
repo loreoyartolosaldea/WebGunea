@@ -3,7 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <title>Bidaien Historiala</title>
+
+        <!-- Bootstrap estiloa -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Estilo pertsonalizatua -->
         <link rel="stylesheet" href="../Estiloa/historiala.css">
     </head>
     <body>

@@ -1,21 +1,27 @@
-/* Estiloa/historiala.css */
-
-body {
+/* Gorputzaren letra-tipoa eta atzeko planoaren gradientea */
+body 
+{
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(to right, #e6ecf0, #ffffff);
 }
 
-.card {
+/* Txarteletarako ertz borobilak */
+.card 
+{
     border-radius: 1rem;
 }
 
-.card-header {
+/* Txartelaren goibururako gradiente kolorea eta goiko ertz borobilak */
+.card-header 
+{
     background: linear-gradient(90deg, #007bff, #00c6ff);
     border-radius: 1rem 1rem 0 0;
 }
 
+/* Botoientzako estiloa: ertz borobilak eta padding zabala */
 .btn-outline-secondary,
-.btn-outline-primary {
+.btn-outline-primary 
+{
     border-radius: 50px;
     padding: 10px 25px;
 }
