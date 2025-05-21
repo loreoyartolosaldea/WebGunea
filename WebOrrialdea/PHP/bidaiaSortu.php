@@ -31,7 +31,7 @@
                 UPDATE Bidaia
                 SET Egoera = 'eginda'
                 WHERE Egoera = 'programatuta' AND 
-                      CONCAT(Data, ' ', Ordua) < NOW()
+                      CONCAT(Data, ' ', Hasiera_ordua) < NOW()
             ");
             $stmt->execute();
 
@@ -40,7 +40,7 @@
             {
                 // Formularioan jasotako datuak hartu
                 $bidaiaData = $_POST['data'];
-                $bidaiaOrdua = $_POST['ordua'];
+                $bidaiaOrdua = $_POST['hasiera_ordua'];
                 $pertsonaKopurua = $_POST['pertsona_kop'];
                 $hasieraHerria = $_POST['hasiera'];
                 $helmugaHerria = $_POST['helmuga'];
@@ -73,7 +73,7 @@
                     // ============================================
                     // BIDAI BERRIAK ERREPETITZEA SAHUZTEN DUTEN KONTROLA
                     // ============================================
-                    $stmt = $pdo->prepare("SELECT COUNT(*) FROM Bidaia WHERE Data = ? AND Ordua = ? AND Erabiltzaile_NAN = ?");
+                    $stmt = $pdo->prepare("SELECT COUNT(*) FROM Bidaia WHERE Data = ? AND Hasiera_ordua = ? AND Erabiltzaile_NAN = ?");
                     $stmt->execute([$bidaiaData, $bidaiaOrdua, $erabiltzaileNan]);
                     $bidaiaDago = $stmt->fetchColumn();
 
@@ -91,7 +91,7 @@
                         $stmt = $pdo->prepare
                         ("
                             INSERT INTO Bidaia 
-                                (Data, Ordua, Pertsona_kopurua, Hasiera, Helmuga, Egoera, Erabiltzaile_NAN) 
+                                (Data, Hasiera_ordua, Pertsona_kopurua, Hasiera, Helmuga, Egoera, Erabiltzaile_NAN) 
                             VALUES (?, ?, ?, ?, ?, 'programatuta', ?)
                         ");
 
@@ -164,7 +164,7 @@
                                 </select>
                             </div>
                             <!-- Ordu guztia input ezkutua bidaltzeko -->
-                            <input type="hidden" name="ordua" id="denbora-input" value="00:00" required>
+                            <input type="hidden" name="hasiera_ordua" id="denbora-input" value="00:00" required>
                         </div>
 
                         <!-- Hasiera herria aukeratzeko -->

@@ -26,7 +26,7 @@
                 $bidaiaId = $_POST['bidaia_id'];
 
                 // Bidaia bakarrik amaitu daiteke gidari honi esleituta eta 'unekoa' edo 'bidean' egoeran daudenak
-                $updateStmt = $pdo->prepare("UPDATE Bidaia SET egoera = 'eginda' WHERE Bidaia_id = ? AND Gidari_nan = ? AND egoera IN ('unekoa', 'bidean')");
+                $updateStmt = $pdo->prepare("UPDATE Bidaia SET Egoera = 'eginda' WHERE Bidaia_id = ? AND Gidari_nan = ? AND Egoera IN ('unekoa', 'bidean')");
                 $updateStmt->execute([$bidaiaId, $nan]);
 
                 // Egindako aldaketaren arabera mezua sortu
@@ -40,7 +40,7 @@
             }
 
             // Gidariaren bidaia guztiak lortu, data eta orduaren arabera jaisteko ordenean
-            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? ORDER BY Data DESC, Ordua DESC");
+            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? ORDER BY Data DESC, Hasiera_ordua DESC");
             $stmt->execute([$nan]);
             $bidaiak = $stmt->fetchAll();
         ?>
@@ -68,13 +68,13 @@
                     <?php foreach ($bidaiak as $bidaia): ?>
                         <tr>
                             <td><?= htmlspecialchars($bidaia['Data']) ?></td>
-                            <td><?= htmlspecialchars($bidaia['Ordua']) ?></td>
-                            <td><?= htmlspecialchars($bidaia['hasiera']) ?></td>
-                            <td><?= htmlspecialchars($bidaia['helmuga']) ?></td>
-                            <td><?= htmlspecialchars($bidaia['pertsona_kopurua']) ?></td>
-                            <td><?= htmlspecialchars($bidaia['egoera']) ?></td>
+                            <td><?= htmlspecialchars($bidaia['Hasiera_ordua']) ?></td>
+                            <td><?= htmlspecialchars($bidaia['Hasiera']) ?></td>
+                            <td><?= htmlspecialchars($bidaia['Helmuga']) ?></td>
+                            <td><?= htmlspecialchars($bidaia['Pertsona_kopurua']) ?></td>
+                            <td><?= htmlspecialchars($bidaia['Egoera']) ?></td>
                             <td>
-                                <?php if ($bidaia['egoera'] === 'unekoa' || $bidaia['egoera'] === 'bidean'): ?>
+                                <?php if ($bidaia['Egoera'] === 'unekoa' || $bidaia['Egoera'] === 'bidean'): ?>
                                     <!-- Bidaia amaitzeko botoia, bakarrik 'unekoa' edo 'bidean' egoeretan -->
                                     <form method="post" style="display:inline-block;">
                                         <input type="hidden" name="bidaia_id" value="<?= $bidaia['Bidaia_id'] ?>">

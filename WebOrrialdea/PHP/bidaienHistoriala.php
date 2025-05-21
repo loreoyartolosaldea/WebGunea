@@ -3,39 +3,30 @@
     <head>
         <meta charset="UTF-8">
         <title>Bidaien Historiala</title>
-
-        <!-- Bootstrap estiloa -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Estilo pertsonalizatua -->
         <link rel="stylesheet" href="../Estiloa/historiala.css">
     </head>
     <body>
+
         <?php
             require_once '../DatuBaseaKonexioa/konexioa.php';
             session_start();
 
             // Saioa hasi dela egiaztatu
-            if (!isset($_SESSION['erabiltzaile_nan'])) 
-            {
-                // Saioa hasi gabe badago, login orrira bideratu
+            if (!isset($_SESSION['erabiltzaile_nan'])) {
                 header("Location: ../PHP/saioaErabiltzailea.php");
                 exit;
             }
 
-            // Saioan dagoen erabiltzailearen NAN hartu
             $erabiltzaileNan = $_SESSION['erabiltzaile_nan'];
-
             $mezua = "";
 
-            // Bidaia bat bertan behera utzi nahi badu erabiltzaileak
-            if (isset($_POST['cancelar']) && isset($_POST['bidaia_id'])) 
-            {
+            // Bidaia bertan behera uzteko eskaera
+            if (isset($_POST['ezeztatu']) && isset($_POST['bidaia_id'])) {
                 $bidaiaId = $_POST['bidaia_id'];
 
-                // Egiaztatu bidaia erabiltzailearen jabetzakoa dela eta egoera programatuta edo unekoa dela
-                $stmt = $pdo->prepare
-                ("
+                // Egoera eguneratu
+                $stmt = $pdo->prepare("
                     UPDATE Bidaia 
                     SET egoera = 'bertan behera' 
                     WHERE Bidaia_id = ? 
@@ -44,32 +35,46 @@
                 ");
                 $stmt->execute([$bidaiaId, $erabiltzaileNan]);
 
-                if ($stmt->rowCount() > 0) 
-                {
+                if ($stmt->rowCount() > 0) {
+                    // Gidariari abisua bidali
+                    $stmtGidari = $pdo->prepare("
+                        SELECT Gidari_NAN 
+                        FROM Bidaia 
+                        WHERE Bidaia_id = ? AND Erabiltzaile_NAN = ?
+                    ");
+                    $stmtGidari->execute([$bidaiaId, $erabiltzaileNan]);
+                    $gidariDatuak = $stmtGidari->fetch();
+
+                    if ($gidariDatuak && $gidariDatuak['Gidari_NAN']) {
+                        $abisuMezua = "Erabiltzaile batek bidaia (ID: $bidaiaId) bertan behera utzi du.";
+                        $abisuaStmt = $pdo->prepare("
+                            INSERT INTO Abisuak (Gidari_nan, Mezua, Ikusita) 
+                            VALUES (?, ?, 0)
+                        ");
+                        $abisuaStmt->execute([$gidariDatuak['Gidari_NAN'], $abisuMezua]);
+                    }
+
                     $mezua = "<div class='alert alert-success text-center'>Bidaia bertan behera utzi da.</div>";
-                } else 
-                {
-                    $mezua = "<div class='alert alert-warning text-center'>Ezin izan da bidaia bertan behera utzi. Seguru zure bidaia eta egoera zuzena direla.</div>";
+                } else {
+                    $mezua = "<div class='alert alert-warning text-center'>Ezin izan da bidaia bertan behera utzi. Ziurtatu zure bidaia eta egoera zuzenak direla.</div>";
                 }
             }
 
-            // Eguneratu bidaien egoera 'eginda' egoerara, denbora pasa bada eta erabiltzaile horrek baditu bidaiak
-            $updateStmt = $pdo->prepare
-            ("
+            // Eguneratu igarotako bidaiak egoera "eginda" bezala
+            $updateStmt = $pdo->prepare("
                 UPDATE Bidaia
                 SET Egoera = 'eginda'
                 WHERE Egoera IN ('programatuta', 'unekoa', 'bidean')
-                AND TIMESTAMP(Data, Ordua) < NOW()
+                AND TIMESTAMP(Data, Hasiera_ordua) < NOW()
                 AND Erabiltzaile_NAN = ?
             ");
             $updateStmt->execute([$erabiltzaileNan]);
 
-            // Lortu erabiltzailearen bidaia guztiak, data eta orduaren arabera jaitsi ordenean
-            $adierazpena = $pdo->prepare
-            ("
+            // Erabiltzailearen bidaiak eskuratu
+            $adierazpena = $pdo->prepare("
                 SELECT * FROM Bidaia 
                 WHERE Erabiltzaile_NAN = ? 
-                ORDER BY Data DESC, Ordua DESC
+                ORDER BY Data DESC, Hasiera_ordua DESC
             ");
             $adierazpena->execute([$erabiltzaileNan]);
             $bidaiaGuztiak = $adierazpena->fetchAll();
@@ -82,7 +87,6 @@
             </div>
             <div class="card-body">
 
-                <!-- Mezuak erakutsi -->
                 <?= $mezua ?>
 
                 <?php if (count($bidaiaGuztiak) > 0): ?>
@@ -91,23 +95,24 @@
                             <thead class="table-light">
                             <tr>
                                 <th>Data</th>
-                                <th>Ordua</th>
+                                <th>Hasiera_ordua</th>
                                 <th>Egoera</th>
                                 <th>Hasiera</th>
                                 <th>Helmuga</th>
-                                <th>Ekintzak</th> <!-- Botonak hemen -->
+                                <th>Ekintzak</th>
+                                <th>Amaiera_ordua</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($bidaiaGuztiak as $bidaia): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($bidaia['Data']) ?></td>
-                                    <td><?= htmlspecialchars($bidaia['ordua']) ?></td>
-                                    <td><?= htmlspecialchars($bidaia['egoera']) ?></td>
-                                    <td><?= htmlspecialchars($bidaia['hasiera']) ?></td>
-                                    <td><?= htmlspecialchars($bidaia['helmuga']) ?></td>
+                                    <td><?= htmlspecialchars($bidaia['Hasiera_ordua']) ?></td>
+                                    <td><?= htmlspecialchars($bidaia['Egoera']) ?></td>
+                                    <td><?= htmlspecialchars($bidaia['Hasiera']) ?></td>
+                                    <td><?= htmlspecialchars($bidaia['Helmuga']) ?></td>
                                     <td>
-                                        <?php if (in_array($bidaia['egoera'], ['programatuta', 'unekoa'])): ?>
+                                        <?php if (in_array($bidaia['Egoera'], ['programatuta', 'unekoa'])): ?>
                                             <form method="post" style="display:inline;">
                                                 <input type="hidden" name="bidaia_id" value="<?= htmlspecialchars($bidaia['Bidaia_id']) ?>">
                                                 <button type="submit" name="cancelar" class="btn btn-danger btn-sm" onclick="return confirm('Ziur zaude bidaia hau bertan behera utzi nahi duzula?');">
@@ -136,6 +141,6 @@
         </div>
     </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

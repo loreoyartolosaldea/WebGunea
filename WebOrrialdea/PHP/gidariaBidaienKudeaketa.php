@@ -23,12 +23,12 @@
             $mezua = "";
 
             // Gidariak jadanik bidaia aktiboa duen egiaztatu ('unekoa' egoeran)
-            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? AND egoera = 'unekoa'");
+            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? AND Egoera = 'unekoa'");
             $stmt->execute([$Gidari_nan]);
             $bidai_aktiboa = $stmt->fetch();
 
             // Programatutako eta oraindik gidaririk gabe dauden bidaiak lortu
-            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE egoera = 'programatuta' AND Gidari_nan IS NULL ORDER BY Data ASC, Ordua ASC");
+            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Egoera = 'programatuta' AND Gidari_nan IS NULL ORDER BY Data ASC, Hasiera_ordua ASC");
             $stmt->execute();
             $bidaiak = $stmt->fetchAll();
 
@@ -56,8 +56,8 @@
                         // Gidariaren bidaia aktiboarekin data eta ordua konparatu, bat badira ez onartu
                         if ($bidai_aktiboa) 
                         {
-                            $aktiboData = $bidai_aktiboa['Data'] . ' ' . $bidai_aktiboa['Ordua'];
-                            $hautatuData = $hautatutakoBidaia['Data'] . ' ' . $hautatutakoBidaia['Ordua'];
+                            $aktiboData = $bidai_aktiboa['Data'] . ' ' . $bidai_aktiboa['Hasiera_ordua'];
+                            $hautatuData = $hautatutakoBidaia['Data'] . ' ' . $hautatutakoBidaia['Hasiera_ordua'];
 
                             $aktiboDateTime = new DateTime($aktiboData);
                             $hautatuDateTime = new DateTime($hautatuData);
@@ -71,18 +71,18 @@
                         if ($bidaiOnartuDaiteke) 
                         {
                             // Bidaia gidariari esleitu eta egoera 'unekoa' bihurtu
-                            $stmt = $pdo->prepare("UPDATE Bidaia SET Gidari_nan = ?, egoera = 'unekoa' WHERE Bidaia_id = ?");
+                            $stmt = $pdo->prepare("UPDATE Bidaia SET Gidari_nan = ?, Egoera = 'unekoa' WHERE Bidaia_id = ?");
                             $stmt->execute([$Gidari_nan, $hautatutakoId]);
 
                             $mezua = "<div class='alert alert-success'>Bidaia hartu duzu arrakastaz.</div>";
 
                             // Programatutako bidaiak berriro kargatu, esleitutakoak kendu daitezen
-                            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE egoera = 'programatuta' AND Gidari_nan IS NULL ORDER BY Data ASC, Ordua ASC");
+                            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Egoera = 'programatuta' AND Gidari_nan IS NULL ORDER BY Data ASC, Hasiera_ordua ASC");
                             $stmt->execute();
                             $bidaiak = $stmt->fetchAll();
 
                             // Gidariaren bidaia aktiboa berriro kargatu
-                            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? AND egoera = 'unekoa'");
+                            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? AND Egoera = 'unekoa'");
                             $stmt->execute([$Gidari_nan]);
                             $bidai_aktiboa = $stmt->fetch();
                         } 
@@ -115,7 +115,7 @@
                             <option value="" disabled selected>-- Aukeratu bidaia bat --</option>
                             <?php foreach ($bidaiak as $bidaia): ?>
                                 <option value="<?= $bidaia['Bidaia_id'] ?>">
-                                    <?= htmlspecialchars($bidaia['Data']) ?> - <?= htmlspecialchars($bidaia['Ordua']) ?> - <?= htmlspecialchars($bidaia['hasiera']) ?> → <?= htmlspecialchars($bidaia['helmuga']) ?>
+                                    <?= htmlspecialchars($bidaia['Data']) ?> - <?= htmlspecialchars($bidaia['Hasiera_ordua']) ?> - <?= htmlspecialchars($bidaia['Hasiera']) ?> → <?= htmlspecialchars($bidaia['Helmuga']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -130,10 +130,10 @@
                 <div class="alert alert-info">
                     <strong>Uneko bidaia:</strong><br>
                     Data: <?= htmlspecialchars($bidai_aktiboa['Data']) ?><br>
-                    Ordua: <?= htmlspecialchars($bidai_aktiboa['Ordua']) ?><br>
-                    Hasiera: <?= htmlspecialchars($bidai_aktiboa['hasiera']) ?><br>
-                    Helmuga: <?= htmlspecialchars($bidai_aktiboa['helmuga']) ?><br>
-                    Egoera: <?= htmlspecialchars($bidai_aktiboa['egoera']) ?>
+                    Ordua: <?= htmlspecialchars($bidai_aktiboa['Hasiera_ordua']) ?><br>
+                    Hasiera: <?= htmlspecialchars($bidai_aktiboa['Hasiera']) ?><br>
+                    Helmuga: <?= htmlspecialchars($bidai_aktiboa['Helmuga']) ?><br>
+                    Egoera: <?= htmlspecialchars($bidai_aktiboa['Egoera']) ?>
                 </div>
             <?php else: ?>
                 <div class="alert alert-warning">Ez duzu bidaia aktiborik une honetan.</div>

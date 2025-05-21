@@ -1,0 +1,9 @@
+USE alaiktomugi;
+CREATE TABLE IF NOT EXISTS Abisuak (
+    Abisu_id INT AUTO_INCREMENT PRIMARY KEY,
+    Gidari_nan VARCHAR(9) NOT NULL,
+    Mezua TEXT NOT NULL,
+    Ikusita BOOLEAN DEFAULT FALSE,
+    Sortze_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Gidari_nan) REFERENCES Gidaria(NAN)
+);
