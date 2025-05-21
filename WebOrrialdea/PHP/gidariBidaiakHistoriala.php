@@ -1,68 +1,93 @@
 <!DOCTYPE html>
-<html lang="eu"> <!-- Web orriaren hizkuntza euskara dela adierazten du -->
-    <head>
-        <meta charset="UTF-8">
-        <title>Nire Bidaiak - Gidaria</title> <!-- Nabigatzailearen titulu barran agertuko den testua -->
-        <!-- Bootstrap estiloko fitxategia gehitzen da diseinua errazteko -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    </head>
-    <body class="bg-light"> <!-- Gorputzaren atalak kolore argia izango du -->
-    
-        <?php
-            session_start(); // Saioa hasten da erabiltzailearen datuak atzitzeko
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <title>Nire Bidaiak - Gidaria</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
 
-            // Gidariaren NAN-a ez badago sesioan gordeta, saioa hasi ez dela ulertzen da eta saio-hasierako orrira birbideratzen da
-            if (!isset($_SESSION['Gidari_nan'])) 
-            {
-                header("Location: ../PHP/saioaGidaria.php"); // Saioa hasteko orria
-                exit; // Script-a hemen gelditzen da, ez da jarraitzen
-            }
+<?php
+    session_start();
+    if (!isset($_SESSION['Gidari_nan'])) 
+    {
+        header("Location: ../PHP/saioaGidaria.php");
+        exit;
+    }
 
-            // Datu-basearekiko konexioa kargatzen da
-            require_once '../DatuBaseaKonexioa/konexioa.php';
+    require_once '../DatuBaseaKonexioa/konexioa.php';
 
-            // Gidariaren NAN-a eskuratzen da sesiotik
-            $nan = $_SESSION['Gidari_nan'];
+    $nan = $_SESSION['Gidari_nan'];
 
-            // Gidari horrek dituen bidaiak eskuratzeko kontsulta prestatzen da
-            $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ?");
-            $stmt->execute([$nan]); // Kontsulta exekutatzen da gidariaren NAN-arekin
-            $bidaiak = $stmt->fetchAll(); // Emaitzak eskuratzen dira array batean
-        ?>
+    // Si se ha enviado el formulario para finalizar viaje
+    if (isset($_POST['finalizar']) && isset($_POST['bidaia_id'])) {
+        $bidaiaId = $_POST['bidaia_id'];
 
-        <div class="container mt-5"> <!-- Bootstrap-en edukiontzia, goitik marjina txiki batekin -->
-            <!-- Gidariaren izena erakusten da 'Nire Bidaiak' izenburuaren ondoan -->
-            <h2>Nire Bidaiak (<?= htmlspecialchars($_SESSION['izena']) ?>)</h2>
+        // Solo puede finalizar viajes asignados a este conductor y que estén en estado 'unekoa' o 'bidean'
+        $updateStmt = $pdo->prepare("UPDATE Bidaia SET egoera = 'eginda' WHERE Bidaia_id = ? AND Gidari_nan = ? AND egoera IN ('unekoa', 'bidean')");
+        $updateStmt->execute([$bidaiaId, $nan]);
 
-            <!-- Taula bat sortzen da bidaiak zerrendatzeko -->
-            <table class="table table-bordered table-hover mt-3">
-                <thead class="table-dark"> <!-- Taularen goiburua (beltza) -->
+        if ($updateStmt->rowCount() > 0) {
+            $mezua = "<div class='alert alert-success'>Bidaia eginda markatu da.</div>";
+        } else {
+            $mezua = "<div class='alert alert-warning'>Ezin izan da bidaia eginda markatu. Ziurtatu bidaia hau zurea dela eta oraindik ez dela eginda.</div>";
+        }
+    }
+
+    // Obtener todas las viajes del conductor ordenadas por fecha y hora descendente
+    $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? ORDER BY Data DESC, Ordua DESC");
+    $stmt->execute([$nan]);
+    $bidaiak = $stmt->fetchAll();
+?>
+
+<div class="container mt-5">
+    <h2>Nire Bidaiak (<?= htmlspecialchars($_SESSION['izena']) ?>)</h2>
+
+    <?= $mezua ?? '' ?>
+
+    <?php if (count($bidaiak) > 0): ?>
+        <table class="table table-bordered table-hover mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Data</th>
+                    <th>Ordua</th>
+                    <th>Hasiera</th>
+                    <th>Helmuga</th>
+                    <th>Pertsonak</th>
+                    <th>Egoera</th>
+                    <th>Ekintza</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($bidaiak as $bidaia): ?>
                     <tr>
-                        <th>Data</th>
-                        <th>Ordua</th>
-                        <th>Hasiera</th>
-                        <th>Helmuga</th>
-                        <th>Pertsonak</th>
-                        <th>Egoera</th>
+                        <td><?= htmlspecialchars($bidaia['Data']) ?></td>
+                        <td><?= htmlspecialchars($bidaia['ordua']) ?></td>
+                        <td><?= htmlspecialchars($bidaia['hasiera']) ?></td>
+                        <td><?= htmlspecialchars($bidaia['helmuga']) ?></td>
+                        <td><?= htmlspecialchars($bidaia['pertsona_kopurua']) ?></td>
+                        <td><?= htmlspecialchars($bidaia['egoera']) ?></td>
+                        <td>
+                            <?php if ($bidaia['egoera'] === 'unekoa' || $bidaia['egoera'] === 'bidean'): ?>
+                                <form method="post" style="display:inline-block;">
+                                    <input type="hidden" name="bidaia_id" value="<?= $bidaia['Bidaia_id'] ?>">
+                                    <button type="submit" name="finalizar" class="btn btn-success btn-sm" onclick="return confirm('Bidaia hau eginda markatu nahi duzu?')">Eginda</button>
+                                </form>
+                            <?php else: ?>
+                                <button class="btn btn-secondary btn-sm" disabled>Eginda</button>
+                            <?php endif; ?>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <!-- Bidai guztiak taulan bistaratzen dira -->
-                    <?php foreach ($bidaiak as $bidaia): ?>
-                        <tr>
-                            <td><?= $bidaia['Data'] ?></td> <!-- Bidaia-data -->
-                            <td><?= $bidaia['ordua'] ?></td> <!-- Ordua -->
-                            <td><?= $bidaia['hasiera'] ?></td> <!-- Hasiera lekua -->
-                            <td><?= $bidaia['helmuga'] ?></td> <!-- Helmuga -->
-                            <td><?= $bidaia['pertsona_kopurua'] ?></td> <!-- Zenbat pertsona joango diren -->
-                            <td><?= $bidaia['egoera'] ?></td> <!-- Bidaia egoera (adib. aktiboa, bertan behera, burutua...) -->
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <div class="alert alert-info">Ez dago bidairik.</div>
+    <?php endif; ?>
 
-            <!-- Hasiera orrira bueltatzeko botoia -->
-            <a href="../index.php" class="btn btn-secondary mb-3">Hasierara itzuli</a>
-        </div>
-    </body>
+    <a href="../index.php" class="btn btn-secondary mb-3">Hasierara itzuli</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
