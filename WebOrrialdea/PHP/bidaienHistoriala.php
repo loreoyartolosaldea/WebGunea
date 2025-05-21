@@ -40,9 +40,6 @@
             ");
             $updateStmt->execute([$erabiltzaileNan]);
 
-
-            $updateStmt->execute([$erabiltzaileNan]);
-
             // ============================================
             // 3. Lortu erabiltzailearen bidaia guztiak, data eta orduaren arabera jaitsi ordenean
             // ============================================

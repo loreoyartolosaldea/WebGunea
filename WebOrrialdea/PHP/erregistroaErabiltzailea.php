@@ -86,7 +86,7 @@
                     <!-- Pasahitza -->
                     <input type="password" class="form-control mb-3" name="pasahitza" placeholder="Pasahitza" required>
 
-                    <!-- Bidali botoia -->
+                    <!-- Erregistratu botoia -->
                     <button type="submit" class="btn btn-warning w-100">Erregistratu</button>
                 </form>
 
