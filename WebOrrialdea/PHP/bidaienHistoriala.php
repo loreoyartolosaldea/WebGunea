@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="../Estiloa/historiala.css">
   </head>
   <body>
-
     <?php
       require_once '../DatuBaseaKonexioa/konexioa.php';
       session_start();
 
       // Saioa hasi dela egiaztatu
-      if (!isset($_SESSION['erabiltzaile_nan'])) {
+      if (!isset($_SESSION['erabiltzaile_nan'])) 
+      {
           header("Location: ../PHP/saioaErabiltzailea.php");
           exit;
       }
@@ -22,11 +22,13 @@
       $mezua = "";
 
       // Bidaia bertan behera uzteko eskaera
-      if (isset($_POST['ezeztatu']) && isset($_POST['bidaia_id'])) {
+      if (isset($_POST['ezeztatu']) && isset($_POST['bidaia_id'])) 
+      {
           $bidaiaId = $_POST['bidaia_id'];
 
           // Egoera eguneratu
-          $stmt = $pdo->prepare("
+          $stmt = $pdo->prepare
+          ("
               UPDATE Bidaia 
               SET Egoera = 'bertan behera' 
               WHERE Bidaia_id = ? 
@@ -35,19 +37,24 @@
           ");
           $stmt->execute([$bidaiaId, $erabiltzaileNan]);
 
-          if ($stmt->rowCount() > 0) {
+          if ($stmt->rowCount() > 0) 
+          {
               // Gidariari abisua bidali
-              $stmtGidari = $pdo->prepare("
+              $stmtGidari = $pdo->prepare
+              ("
                   SELECT Gidari_NAN 
                   FROM Bidaia 
                   WHERE Bidaia_id = ? AND Erabiltzaile_NAN = ?
               ");
+
               $stmtGidari->execute([$bidaiaId, $erabiltzaileNan]);
               $gidariDatuak = $stmtGidari->fetch();
 
-              if ($gidariDatuak && $gidariDatuak['Gidari_NAN']) {
+              if ($gidariDatuak && $gidariDatuak['Gidari_NAN']) 
+              {
                   $abisuMezua = "Erabiltzaile batek bidaia (ID: $bidaiaId) bertan behera utzi du.";
-                  $abisuaStmt = $pdo->prepare("
+                  $abisuaStmt = $pdo->prepare
+                  ("
                       INSERT INTO Abisuak (Gidari_nan, Mezua, Ikusita) 
                       VALUES (?, ?, 0)
                   ");
@@ -55,25 +62,27 @@
               }
 
               $mezua = "<div class='alert alert-success text-center'>Bidaia bertan behera utzi da.</div>";
-          } else {
+          } else 
+          {
               $mezua = "<div class='alert alert-warning text-center'>Ezin izan da bidaia bertan behera utzi. Ziurtatu zure bidaia eta egoera zuzenak direla.</div>";
           }
       }
 
       // Eguneratu igarotako bidaiak egoera "eginda" bezala
-      $updateStmt = $pdo->prepare("
+      $updateStmt = $pdo->prepare
+      ("
           UPDATE Bidaia
           SET Egoera = 'eginda'
           WHERE Egoera IN ('programatuta', 'unekoa', 'bidean')
           AND CONCAT(Data, ' ', Hasiera_ordua) < NOW()
           AND Erabiltzaile_NAN = ?
       ");
+
       $updateStmt->execute([$erabiltzaileNan]);
 
       // Erabiltzailearen bidaiak eskuratu
-      // Oharra: 'Ordua' -> 'Hasiera_ordua' errorearen konponketa aplikatuta dago hemen.
-      // 'Amaiera_ordua' zutabea gehituta dago SELECT kontsultan, taulan erakutsi ahal izateko.
-      $adierazpena = $pdo->prepare("
+      $adierazpena = $pdo->prepare
+      ("
           SELECT *, Amaiera_ordua FROM Bidaia 
           WHERE Erabiltzaile_NAN = ? 
           ORDER BY Data DESC, Hasiera_ordua DESC
