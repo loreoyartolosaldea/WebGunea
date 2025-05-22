@@ -28,8 +28,15 @@
           $bidaiaId = $_POST['bidaia_id'];
 
           // Bidaiaren egoera 'eginda' egoerara eguneratzeko kontsulta
-          // Kontsultak ziurtatzen du gidariari esleitutako bidaia dela eta 'unekoa' edo 'bidean' egoeran dagoela
-          $updateStmt = $pdo->prepare("UPDATE Bidaia SET Egoera = 'eginda' WHERE Bidaia_id = ? AND Gidari_nan = ? AND Egoera IN ('unekoa', 'bidean')");
+          // KLASE HONETAKO ALDAKETA NAGUSIA:
+          // Egoera 'eginda' jarri eta 'Amaiera_ordua' uneko ordua bezala ezarri (CURTIME() erabiliz)
+          $updateStmt = $pdo->prepare("
+              UPDATE Bidaia 
+              SET Egoera = 'eginda', Amaiera_ordua = CURTIME() 
+              WHERE Bidaia_id = ? 
+              AND Gidari_nan = ? 
+              AND Egoera IN ('unekoa', 'bidean')
+          ");
           $updateStmt->execute([$bidaiaId, $nan]);
 
           // Eguneraketa zuzen egin den egiaztatu
@@ -41,8 +48,8 @@
       }
 
       // Gidariaren bidaia guztiak eskuratzeko kontsulta, data eta hasiera-orduaren arabera beheranzko ordenan
-      // OHARRA: Zure aurreko errore-mezuan 'Ordua' zutabea agertu zen arren, zure kodean 'Hasiera_ordua' agertzen da.
       // Datu-baseko eskema iruzkinekin bat dator, 'Hasiera_ordua' baita zutabearen izena.
+      // SELECT * erabiltzen dugu, Amaiera_ordua ere barne hartzeko.
       $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? ORDER BY Data DESC, Hasiera_ordua DESC");
       $stmt->execute([$nan]);
       $bidaiak = $stmt->fetchAll();
@@ -59,7 +66,7 @@
             <tr>
               <th>Data</th>
               <th>Hasiera_ordua</th>
-              <th>Hasiera</th>
+              <th>Amaiera_ordua</th> <th>Hasiera</th>
               <th>Helmuga</th>
               <th>Pertsonak</th>
               <th>Egoera</th>
@@ -71,6 +78,7 @@
               <tr>
                 <td><?= htmlspecialchars($bidaia['Data']) ?></td>
                 <td><?= htmlspecialchars($bidaia['Hasiera_ordua']) ?></td>
+                <td><?= $bidaia['Amaiera_ordua'] ? htmlspecialchars($bidaia['Amaiera_ordua']) : 'N/A' ?></td> 
                 <td><?= htmlspecialchars($bidaia['Hasiera']) ?></td>
                 <td><?= htmlspecialchars($bidaia['Helmuga']) ?></td>
                 <td><?= htmlspecialchars($bidaia['Pertsona_kopurua']) ?></td>
