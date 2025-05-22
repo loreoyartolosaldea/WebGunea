@@ -3,87 +3,223 @@
   $izena = $_SESSION['izena'] ?? null;
   $rola = $_SESSION['rola'] ?? null;
 ?>
+<?php
+session_start();
+// Asegúrate de que $izena y $rola estén definidos si vienen de una sesión,
+// o inicialízalos para evitar errores si el usuario no está logueado.
+$izena = $_SESSION['izena'] ?? null;
+$rola = $_SESSION['rola'] ?? null;
+
+echo 'PHP version: ' . phpversion() . "<br>";
+
+if (!isset($_SESSION['test'])) {
+    $_SESSION['test'] = 'ok';
+    echo "Sesión iniciada correctamente.";
+} else {
+    echo "Sesión persistente detectada.";
+}
+?>
 
 <!DOCTYPE html>
 <html lang="eu">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>alaikToMUGI - Taxi Zerbitzuak</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="Estiloa/EstiloaIndex.css" rel="stylesheet">
 
-    <style>
-      header.masthead 
-      {
-        background-image: url('Argazkia/taxi.jpg');
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+
+        <style>
+      body {
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: #f8f9fa; /* Fondo argia */
+      }
+
+      header.masthead {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('Argazkia/taxi.jpg') no-repeat center center;
         background-size: cover;
-        background-position: center;
-        height: 100vh;
+        height: 100vh; /* Leihoaren altuera osoa */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
         position: relative;
       }
 
-      #mainNav 
-      {
-        background-color: rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      header.masthead h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+      }
+
+      header.masthead p {
+        font-size: 1.5rem;
+        max-width: 700px;
+        margin: 0 auto 3rem;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      .navbar {
+        background-color: rgba(255, 255, 255, 0.8); /* Nabigazio barraren hondo erdi-gardena */
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         transition: background-color 0.3s ease;
       }
 
-      #mainNav .nav-link 
-      {
-        color: #000 !important;
-        font-weight: 500;
+      .navbar .nav-link,
+      .navbar .navbar-brand {
+        color: #343a40 !important; /* Esteken kolore iluna */
+        font-weight: 600;
       }
 
-      #mainNav .navbar-brand 
-      {
-        color: #000 !important;
-        font-weight: bold;
+      .navbar .nav-link:hover {
+        color: #007bff !important; /* Pasatu kolorea */
       }
 
-      .masthead h1, .masthead p 
-      {
+      .navbar-toggler {
+        border-color: rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 0.3rem;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .page-section {
+        padding: 6rem 0;
+      }
+
+      .bg-primary {
+        background-color: #007bff !important; /* Bootstrap-eko kolore nagusia */
+      }
+
+      .text-white-75 {
+        color: rgba(255, 255, 255, 0.75) !important;
+      }
+
+      .feature-box {
+        background-color: #ffffff;
+        border-radius: 0.5rem;
+        padding: 2rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .feature-box:hover {
+        transform: translateY(-5px);
+      }
+
+      .feature-box h3 {
+        color: #343a40;
+        margin-bottom: 1rem;
+      }
+
+      .feature-box i {
+        font-size: 3rem;
+        color: #007bff;
+        margin-bottom: 1rem;
+      }
+
+      .footer {
+        background-color: #343a40 !important; /* Oin-orri iluna */
+      }
+
+      .social-icons a {
+        font-size: 1.8rem;
+        margin: 0 1rem;
+        color: #ffffff;
+        transition: color 0.3s ease;
+      }
+
+      .social-icons a:hover {
+        color: #007bff;
+      }
+
+      /* Estilos para "Por Qué Elegirnos" */
+      .why-choose-us .col-lg-3 {
+        margin-bottom: 2rem;
+      }
+      .why-choose-us .icon-box {
+        text-align: center;
+        padding: 1.5rem;
+        background-color: #f8f9fa; /* Ligeramente diferente del fondo general */
+        border-radius: 0.5rem;
+        box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+        height: 100%; /* Asegura que todas las cajas tengan la misma altura */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .why-choose-us .icon-box i {
+        font-size: 4rem;
+        color: #28a745; /* Un color verde para diferenciar o el azul principal */
+        margin-bottom: 1rem;
+      }
+      .why-choose-us .icon-box h4 {
+        color: #343a40;
+        margin-bottom: 0.5rem;
+      }
+      .why-choose-us .icon-box p {
+        color: #6c757d;
+        font-size: 0.95rem;
+      }
+
+      /* Estilos para "Nuestros Logros" */
+      .our-achievements {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('Argazkia/city_night.jpg') no-repeat center center; /* Considera una imagen de fondo apropiada */
+        background-size: cover;
         color: white;
-        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
       }
-
-      .divider 
-      {
-        border-top: 2px solid #fff;
-        opacity: 0.6;
-        width: 60px;
-        margin: 20px auto;
+      .our-achievements .achievement-item {
+        text-align: center;
+        padding: 1.5rem;
+        margin-bottom: 2rem; /* Espaciado para dispositivos pequeños */
       }
-
-      .fondoko_esaldia 
-      {
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #fff;
-        padding: 15px 20px;
-        border-radius: 10px;
-        display: inline-block;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      .our-achievements .achievement-item h2 {
+        font-size: 3.5rem; /* Tamaño grande para los números */
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #ffc107; /* Color de contraste, amarillo de Bootstrap */
+      }
+      .our-achievements .achievement-item p {
         font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.85);
       }
     </style>
   </head>
   <body id="page-top">
 
-    <!-- Nabigazioa -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+      <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="#page-top">alaikToMUGI</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
           aria-label="Menua aldatu">
-          Menu
-          <i class="fas fa-bars ms-1"></i>
+          <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ms-auto">
+          <ul class="navbar-nav ms-auto my-2 my-lg-0">
             <?php if ($izena): ?>
               <li class="nav-item"><a class="nav-link" href="#">👋 Kaixo, <?= htmlspecialchars($izena) ?>!</a></li>
               <?php if ($rola === 'erabiltzailea'): ?>
@@ -107,76 +243,133 @@
       </div>
     </nav>
 
-    <!-- Goiburua -->
-    <header class="masthead">
-      <div class="container px-4 px-lg-5 h-100">
-        <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
-          <div class="col-lg-8 align-self-end">
-            <h1 class="font-weight-bold">Bidaiatu erraz eta seguru alaikToMUGI-rekin</h1>
-            <hr class="divider" />
-          </div>
-          <div class="col-lg-8 align-self-baseline">
-            <p class="mb-5 fondoko_esaldia">
-              Taxi zerbitzu adimenduna, erabiltzaileentzat eta gidarientzat diseinatua.
+        <header class="masthead">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 align-items-center justify-content-center">
+          <div class="col-lg-10">
+            <h1 class="font-weight-bold text-white mb-4">Bidaiatu erraz eta seguru alaikToMUGI-rekin</h1>
+            <p class="lead mb-5">
+              Taxi zerbitzu adimenduna, erabiltzaileentzat eta gidarientzat diseinatua, zure mugikortasuna eraldatzeko.
             </p>
-
             <?php if (!$izena): ?>
-              <a class="btn btn-primary btn-xl" href="./PHP/saioaErabiltzailea.php">Erabiltzaile moduan hasi</a>
+              <a class="btn btn-primary btn-lg mt-3" href="./PHP/saioaErabiltzailea.php">Hasi Bidaia Bat Orain</a>
             <?php endif; ?>
           </div>
-        </div>
+          </div>
       </div>
     </header>
 
-    <!-- Ezaugarriak -->
-    <section class="page-section bg-primary" id="features">
+    <section class="page-section" id="features">
       <div class="container px-4 px-lg-5">
+        <h2 class="text-center mt-0 mb-5">Gure Zerbitzuaren Abantailak</h2>
         <div class="row gx-4 gx-lg-5">
-          <div class="col-lg-6 text-center">
-            <h2 class="text-white mt-0">Erabiltzaileentzat</h2>
-            <ul class="list-unstyled text-white-75">
-              <li>Alta azkarra eta erraza</li>
-              <li>Bidaien programazioa</li>
-              <li>Bidaiaren historialaren kontsulta</li>
-            </ul>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="feature-box">
+              <i class="fas fa-user mb-3"></i>
+              <h3>Erabiltzaileentzako Erraztasuna</h3>
+              <p class="text-muted">Bidaiak programatu, historialak kontsultatu eta zure taxia erraz eskatu, edonondik eta edonoiz.</p>
+            </div>
           </div>
-          <div class="col-lg-6 text-center">
-            <h2 class="text-white mt-0">Gidarientzat</h2>
-            <ul class="list-unstyled text-white-75">
-              <li>Bidaien egoera kontsultatu</li>
-              <li>Bidaia aktibatu edo amaitu</li>
-              <li>Historiala ikusi eta kudeatu</li>
-            </ul>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="feature-box">
+              <i class="fas fa-car mb-3"></i>
+              <h3>Gidarientzako Kudeaketa Aurreratua</h3>
+              <p class="text-muted">Bidaien egoera ikusi, bidaiak aktibatu edo amaitu, eta zure historial osoa erraz kudeatu.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="feature-box">
+              <i class="fas fa-mobile-alt mb-3"></i>
+              <h3>Plataforma Erabat Integrala</h3>
+              <p class="text-muted">Konexio azkar, erraz eta segurua eskaintzen dugu erabiltzaileen eta gidarien artean, mugikortasuna hobetuz.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Script-ak -->
-    <script src="Creative/js/scripts.js"></script>
-
-    <!-- Footer soziala -->
-    <footer class="footer bg-dark text-white py-4 mt-auto">
-      <div class="container text-center">
-        <div class="mb-3">
-          <a href="https://www.facebook.com/alaiktoMUGI" target="_blank" class="text-white mx-3 fs-4" aria-label="Facebook">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="https://twitter.com/alaiktoMUGI" target="_blank" class="text-white mx-3 fs-4" aria-label="Twitter">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="https://www.instagram.com/alaiktoMUGI" target="_blank" class="text-white mx-3 fs-4" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="https://www.linkedin.com/company/alaiktoMUGI" target="_blank" class="text-white mx-3 fs-4" aria-label="LinkedIn">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
+    <section class="page-section bg-light why-choose-us" id="why-us">
+        <div class="container px-4 px-lg-5">
+            <h2 class="text-center mt-0 mb-5">Zergatik Aukeratu alaikToMUGI?</h2>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-3 col-md-6">
+                    <div class="icon-box">
+                        <i class="fas fa-shield-alt mb-3"></i>
+                        <h4>Segurtasuna Lehenik</h4>
+                        <p class="text-muted">Gure gidari guztiak zorrotz egiaztatuta daude, zure bidaia segurua izan dadin.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="icon-box">
+                        <i class="fas fa-money-bill-wave mb-3"></i>
+                        <h4>Prezio Gardenak</h4>
+                        <p class="text-muted">Ez dago ezkutuko kosturik. Ikusi beti prezio estimatua erreserbatu aurretik.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="icon-box">
+                        <i class="fas fa-clock mb-3"></i>
+                        <h4>Eskuragarri 24/7</h4>
+                        <p class="text-muted">Edozein unetan, eguneko edozein ordutan, taxi bat zure zain izango duzu.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="icon-box">
+                        <i class="fas fa-map-marked-alt mb-3"></i>
+                        <h4>Bidaiaren Jarraipena</h4>
+                        <p class="text-muted">Jarraitu zure taxia denbora errealean mapan, jaso arte.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p class="mb-0 small">© 2025 alaikToMUGI - Eskubide guztiak erreserbatuta.</p>
+    </section>
+
+    <section class="page-section our-achievements" id="achievements">
+        <div class="container px-4 px-lg-5 text-center">
+            <h2 class="mb-5 text-white">Gure Lorpenak</h2>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-3 col-md-6 col-sm-6 achievement-item">
+                    <h2>5000+</h2>
+                    <p>Bidaia Burutu</p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 achievement-item">
+                    <h2>100+</h2>
+                    <p>Gidari Erregistratu</p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 achievement-item">
+                    <h2>15000+</h2>
+                    <p>Kilometro Eginda</p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 achievement-item">
+                    <h2>4.9 <i class="fas fa-star" style="font-size: 2rem;"></i></h2>
+                    <p>Batez Besteko Balorazioa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section bg-primary text-white">
+      <div class="container px-4 px-lg-5 text-center">
+        <h2 class="mb-4">Listo zaude zure lehen bidaia egiteko?</h2>
+        <p class="lead mb-5">Eman izena orain eta hasi bidaiatzen modu adimendunean eta seguruan gurekin!</p>
+        <?php if (!$izena): ?>
+          <a class="btn btn-light btn-xl" href="./PHP/erregistroaErabiltzailea.php">Erregistratu Orain!</a>
+        <?php endif; ?>
+      </div>
+    </section>
+
+    <footer class="footer py-5">
+      <div class="container text-center">
+        <div class="social-icons mb-4">
+          <a href="https://www.facebook.com/alaiktoMUGI" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com/alaiktoMUGI" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/alaiktoMUGI" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/alaiktoMUGI" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p class="mb-0 small text-white-50">© 2025 alaikToMUGI - Eskubide guztiak erreserbatuta.</p>
       </div>
     </footer>
 
-    <!-- Ikonoak (FontAwesome) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcOdihvfOQ7pNnNq+1uI" crossorigin="anonymous"></script>
   </body>
 </html>
