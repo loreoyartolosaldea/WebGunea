@@ -1,4 +1,7 @@
 USE alaiktomugi;
+
+DROP TRIGGER IF EXISTS pasa_historialera;
+
 DELIMITER //
 
 CREATE TRIGGER pasa_historialera
@@ -12,22 +15,24 @@ BEGIN
             Gidari_nan,
             Erabiltzaile_nan,
             Data,
-            Ordua,
+            Hasiera_ordua,
             Pertsona_kopurua,
             Hasiera,
             Helmuga,
-            Egoera
+            Egoera,
+            Amaiera_ordua
         ) VALUES 
         (
             NEW.Bidaia_id,
             NEW.Gidari_nan,
             NEW.Erabiltzaile_NAN,
             NEW.Data,
-            NEW.Ordua,
-            NEW.pertsona_kopurua,
-            NEW.hasiera,
-            NEW.helmuga,
-            NEW.egoera
+            NEW.Hasiera_ordua,
+            NEW.Pertsona_kopurua,
+            NEW.Hasiera,
+            NEW.Helmuga,
+            NEW.Egoera,
+            NEW.Amaiera_ordua
         );
     END IF;
 END;

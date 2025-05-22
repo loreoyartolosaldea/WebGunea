@@ -65,7 +65,7 @@
                 UPDATE Bidaia
                 SET Egoera = 'eginda'
                 WHERE Egoera IN ('programatuta', 'unekoa', 'bidean')
-                AND TIMESTAMP(Data, Hasiera_ordua) < NOW()
+                AND CONCAT(Data, ' ', Hasiera_ordua) < NOW()
                 AND Erabiltzaile_NAN = ?
             ");
             $updateStmt->execute([$erabiltzaileNan]);
