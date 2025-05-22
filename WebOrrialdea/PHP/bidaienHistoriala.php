@@ -115,7 +115,7 @@
                                         <?php if (in_array($bidaia['Egoera'], ['programatuta', 'unekoa'])): ?>
                                             <form method="post" style="display:inline;">
                                                 <input type="hidden" name="bidaia_id" value="<?= htmlspecialchars($bidaia['Bidaia_id']) ?>">
-                                                <button type="submit" name="cancelar" class="btn btn-danger btn-sm" onclick="return confirm('Ziur zaude bidaia hau bertan behera utzi nahi duzula?');">
+                                                <button type="submit" name="ezeztatu" class="btn btn-danger btn-sm" onclick="return confirm('Ziur zaude bidaia hau bertan behera utzi nahi duzula?');">
                                                     Bertan behera utzi
                                                 </button>
                                             </form>
