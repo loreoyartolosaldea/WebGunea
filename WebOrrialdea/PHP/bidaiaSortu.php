@@ -39,19 +39,19 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST") 
             {
                 // Formularioan jasotako datuak hartu
-                $bidaiaData = $_POST['data'];
-                $bidaiaOrdua = $_POST['hasiera_ordua'];
-                $pertsonaKopurua = $_POST['pertsona_kop'];
-                $hasieraHerria = $_POST['hasiera'];
-                $helmugaHerria = $_POST['helmuga'];
+                $bidaiaData             =           $_POST['data'];
+                $bidaiaOrdua            =           $_POST['hasiera_ordua'];
+                $pertsonaKopurua        =           $_POST['pertsona_kop'];
+                $hasieraHerria          =           $_POST['hasiera'];
+                $helmugaHerria          =           $_POST['helmuga'];
 
                 // Gaurko data eta ordua DateTime objektu gisa sortu
-                $gaur = new DateTime('today');
-                $orain = new DateTime();
+                $gaur                   =           new DateTime('today');
+                $orain                  =           new DateTime();
 
                 // Hautatutako data eta ordua DateTime gisa sortu, konparaketarako
-                $hautatutakoData = DateTime::createFromFormat('Y-m-d', $bidaiaData);
-                $hautatutakoMomentua = DateTime::createFromFormat('Y-m-d H:i', $bidaiaData . ' ' . $bidaiaOrdua);
+                $hautatutakoData        =       DateTime::createFromFormat('Y-m-d', $bidaiaData);
+                $hautatutakoMomentua    =      DateTime::createFromFormat('Y-m-d H:i', $bidaiaData . ' ' . $bidaiaOrdua);
 
                 // ============================================
                 // DATA ETA ORDUA BALIDATU
@@ -224,10 +224,10 @@
             document.addEventListener('DOMContentLoaded', () => 
             {
                 // Ordu eta minutu select elementuak eta denbora ezkutuko input-a hartu
-                const orduSelect = document.getElementById('ordu-select');
-                const minutuSelect = document.getElementById('minutu-select');
-                const denboraInput = document.getElementById('denbora-input');
-                const dataInput = document.getElementById('data');
+                const orduSelect            =           document.getElementById('ordu-select');
+                const minutuSelect          =           document.getElementById('minutu-select');
+                const denboraInput          =           document.getElementById('denbora-input');
+                const dataInput             =           document.getElementById('data');
 
                 // Ordua eguneratzeko funtzioa: ordu eta minutu aukeratuak ezkutuko input-ean jartzen ditu
                 function eguneratuOrdua() 

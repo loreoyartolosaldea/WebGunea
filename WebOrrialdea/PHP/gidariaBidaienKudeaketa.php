@@ -10,13 +10,15 @@
             session_start();
 
             // Saioa hasi dela egiaztatu, bestela errore mezua erakutsi eta irten
-            if (!isset($_SESSION['Gidari_nan'])) 
+            // Orain 'gidari_nan' erabiltzen dugu, loginean gordetzen den bezala.
+            if (!isset($_SESSION['gidari_nan'])) 
             {
                 echo "<div class='alert alert-danger m-3'>Ezin da NAN-a eskuratu. Saioa hasi berriro.</div>";
                 exit;
             }
 
-            $Gidari_nan = $_SESSION['Gidari_nan'];
+            // Gidariaren NANa saiotik eskuratu
+            $gidari_nan = $_SESSION['gidari_nan'];
 
             require_once '../DatuBaseaKonexioa/konexioa.php';
 
@@ -24,7 +26,7 @@
 
             // Gidariak jadanik bidaia aktiboa duen egiaztatu ('unekoa' egoeran)
             $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? AND Egoera = 'unekoa'");
-            $stmt->execute([$Gidari_nan]);
+            $stmt->execute([$gidari_nan]);
             $bidai_aktiboa = $stmt->fetch();
 
             // Programatutako eta oraindik gidaririk gabe dauden bidaiak lortu
@@ -72,7 +74,7 @@
                         {
                             // Bidaia gidariari esleitu eta egoera 'unekoa' bihurtu
                             $stmt = $pdo->prepare("UPDATE Bidaia SET Gidari_nan = ?, Egoera = 'unekoa' WHERE Bidaia_id = ?");
-                            $stmt->execute([$Gidari_nan, $hautatutakoId]);
+                            $stmt->execute([$gidari_nan, $hautatutakoId]);
 
                             $mezua = "<div class='alert alert-success'>Bidaia hartu duzu arrakastaz.</div>";
 
@@ -83,7 +85,7 @@
 
                             // Gidariaren bidaia aktiboa berriro kargatu
                             $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Gidari_nan = ? AND Egoera = 'unekoa'");
-                            $stmt->execute([$Gidari_nan]);
+                            $stmt->execute([$gidari_nan]);
                             $bidai_aktiboa = $stmt->fetch();
                         } 
                         else 
@@ -104,7 +106,6 @@
         <div class="container mt-4">
             <h2 class="mb-4">Programatutako bidaiak (aukeratu nahi duzuna)</h2>
 
-            <!-- Mezuak erakutsi -->
             <?= $mezua ?>
 
             <?php if ($bidaiak): ?>

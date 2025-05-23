@@ -29,14 +29,11 @@
                 $tel = $_POST['tel'];
                 $pasahitza = $_POST['pasahitza'];
 
-                // Pasahitza zifratu, segurtasunagatik
-                $pasahitzaZifratua = password_hash($pasahitza, PASSWORD_DEFAULT);
-
                 // SQL adierazpena prestatu datuak sartzeko
                 $stmt = $pdo->prepare("INSERT INTO Erabiltzailea (NAN, Izena, Abizena, Posta, Tel_zenb, Pasahitza) VALUES (?, ?, ?, ?, ?, ?)");
 
                 // SQL-a ondo exekutatu bada...
-                if ($stmt->execute([$nan, $izena, $abizena, $posta, $tel, $pasahitzaZifratua])) 
+                if ($stmt->execute([$nan, $izena, $abizena, $posta, $tel, $pasahitza])) 
                 {
                     // Saioa hasi eta sesioan erabiltzailearen datuak gorde
                     $_SESSION['erabiltzaile_nan'] = $nan;
