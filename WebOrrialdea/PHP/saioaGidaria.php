@@ -38,10 +38,10 @@
                     if ($pasahitza === $nan) 
                     {
                         // Saioan gidariaren informazioa gorde
-                        $_SESSION['gidari_nan']             = $gidaria['NAN'];
-                        $_SESSION['izena']                  = $gidaria['Izena'];
-                        $_SESSION['rola']                   = 'gidaria';
-                        $_SESSION['pasahitzaAldatuBehar']   = true; // Pasahitza aldatzera behartzeko bandera aktibatu
+                        $_SESSION['gidari_nan']             =           $gidaria['NAN'];
+                        $_SESSION['izena']                  =           $gidaria['Izena'];
+                        $_SESSION['rola']                   =           'gidaria';
+                        $_SESSION['pasahitzaAldatuBehar']   =           true; // Pasahitza aldatzera behartzeko bandera aktibatu
 
                         // Pasahitza aldatzeko orrira birbideratu
                         // Ziurtatu 'aldatuPasahitzaGidaria.php' fitxategia sortuta eta bide egokian dagoela
@@ -52,10 +52,10 @@
                     else if ($pasahitza === $gidaria['Pasahitza']) 
                     {
                         // Saioan gidariaren informazioa gorde
-                        $_SESSION['gidari_nan']             = $gidaria['NAN'];
-                        $_SESSION['izena']                  = $gidaria['Izena'];
-                        $_SESSION['rola']                   = 'gidaria';
-                        $_SESSION['pasahitzaAldatuBehar']   = false; // Pasahitza aldatu behar ez dela adierazi
+                        $_SESSION['gidari_nan']             =           $gidaria['NAN'];
+                        $_SESSION['izena']                  =           $gidaria['Izena'];
+                        $_SESSION['rola']                   =           'gidaria';
+                        $_SESSION['pasahitzaAldatuBehar']   =              false; // Pasahitza aldatu behar ez dela adierazi
 
                         // Hasierako orrira birbideratu
                         header("Location: ../index.php");

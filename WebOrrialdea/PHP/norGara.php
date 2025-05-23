@@ -1,7 +1,7 @@
 <?php
-  session_start();
-  $izena = $_SESSION['izena'] ?? null;  
-  $rola = $_SESSION['rola'] ?? null; 
+    session_start();
+    $izena      =       $_SESSION['izena'] ?? null;  
+    $rola       =       $_SESSION['rola'] ?? null; 
 ?>
 
 <!DOCTYPE html>

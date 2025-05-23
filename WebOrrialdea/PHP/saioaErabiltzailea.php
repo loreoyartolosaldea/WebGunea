@@ -25,8 +25,8 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST") 
             {
                 // Erabiltzaileak sartutako NAN eta pasahitza jasotzen dira
-                $nan = trim($_POST['nan']);
-                $pasahitza = trim($_POST['pasahitza']);
+                $nan            =           trim($_POST['nan']);
+                $pasahitza      =           trim($_POST['pasahitza']);
 
                 // NAN horrekin datu-basean erabiltzailea bilatzen da
                 $stmt = $pdo->prepare("SELECT NAN, Izena, Pasahitza FROM Erabiltzailea WHERE NAN = ?");
@@ -43,9 +43,9 @@
                     if ($pasahitza === $pasahitzaBD) 
                     {
                         // Saioan erabiltzailearen informazioa gordetzen da
-                        $_SESSION['erabiltzaile_nan'] = $erabiltzailea['NAN'];
-                        $_SESSION['izena'] = $erabiltzailea['Izena'];
-                        $_SESSION['rola'] = 'erabiltzailea';
+                        $_SESSION['erabiltzaile_nan']           =           $erabiltzailea['NAN'];
+                        $_SESSION['izena']                      =           $erabiltzailea['Izena'];
+                        $_SESSION['rola']                       =           'erabiltzailea';
 
                         // Hasiera orrira birbideratzen da
                         header("Location: ../index.php");

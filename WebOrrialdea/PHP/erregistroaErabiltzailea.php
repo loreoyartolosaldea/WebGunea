@@ -22,12 +22,12 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST") 
             {
                 // Formularioan jasotako balioak hartu
-                $nan = $_POST['nan'];
-                $izena = $_POST['izena'];
-                $abizena = $_POST['abizena'];
-                $posta = $_POST['posta'];
-                $tel = $_POST['tel'];
-                $pasahitza = $_POST['pasahitza'];
+                $nan            =           $_POST['nan'];
+                $izena          =           $_POST['izena'];
+                $abizena        =           $_POST['abizena'];
+                $posta          =           $_POST['posta'];
+                $tel            =           $_POST['tel'];
+                $pasahitza      =           $_POST['pasahitza'];
 
                 // SQL adierazpena prestatu datuak sartzeko
                 $stmt = $pdo->prepare("INSERT INTO Erabiltzailea (NAN, Izena, Abizena, Posta, Tel_zenb, Pasahitza) VALUES (?, ?, ?, ?, ?, ?)");
@@ -36,10 +36,10 @@
                 if ($stmt->execute([$nan, $izena, $abizena, $posta, $tel, $pasahitza])) 
                 {
                     // Saioa hasi eta sesioan erabiltzailearen datuak gorde
-                    $_SESSION['erabiltzaile_nan'] = $nan;
-                    $_SESSION['izena'] = $izena;
-                    $_SESSION['abizena'] = $abizena;
-                    $_SESSION['rola'] = 'erabiltzailea'; // Erabiltzaile mota zehaztu
+                    $_SESSION['erabiltzaile_nan']           =           $nan;
+                    $_SESSION['izena']                      =           $izena;
+                    $_SESSION['abizena']                    =           $abizena;
+                    $_SESSION['rola']                       =           'erabiltzailea'; // Erabiltzaile mota zehaztu
 
                     // Hasierako orrira bideratu
                     header("Location: ../index.php");

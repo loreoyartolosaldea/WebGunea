@@ -18,7 +18,7 @@
             }
 
             // Gidariaren NANa saiotik eskuratu
-            $gidari_nan = $_SESSION['gidari_nan'];
+            $gidari_nan             =           $_SESSION['gidari_nan'];
 
             require_once '../DatuBaseaKonexioa/konexioa.php';
 
@@ -39,7 +39,7 @@
             {
                 if (isset($_POST['bidaia_id']) && !empty($_POST['bidaia_id'])) 
                 {
-                    $hautatutakoId = $_POST['bidaia_id'];
+                    $hautatutakoId          =           $_POST['bidaia_id'];
 
                     // Aukeratutako bidaia lortu
                     $stmt = $pdo->prepare("SELECT * FROM Bidaia WHERE Bidaia_id = ?");
@@ -58,11 +58,11 @@
                         // Gidariaren bidaia aktiboarekin data eta ordua konparatu, bat badira ez onartu
                         if ($bidai_aktiboa) 
                         {
-                            $aktiboData = $bidai_aktiboa['Data'] . ' ' . $bidai_aktiboa['Hasiera_ordua'];
-                            $hautatuData = $hautatutakoBidaia['Data'] . ' ' . $hautatutakoBidaia['Hasiera_ordua'];
+                            $aktiboData             =           $bidai_aktiboa['Data'] . ' ' . $bidai_aktiboa['Hasiera_ordua'];
+                            $hautatuData            =           $hautatutakoBidaia['Data'] . ' ' . $hautatutakoBidaia['Hasiera_ordua'];
 
-                            $aktiboDateTime = new DateTime($aktiboData);
-                            $hautatuDateTime = new DateTime($hautatuData);
+                            $aktiboDateTime         =           new DateTime($aktiboData);
+                            $hautatuDateTime        =           new DateTime($hautatuData);
 
                             if ($aktiboDateTime == $hautatuDateTime) 
                             {

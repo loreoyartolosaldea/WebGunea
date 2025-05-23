@@ -2,8 +2,8 @@
     session_start();
 
     // Erabiltzailearen izena eta rola eskuratu saio aldagaien bidez
-    $izena = $_SESSION['izena'] ?? null;
-    $rola = $_SESSION['rola'] ?? null;
+    $izena          =           $_SESSION['izena'] ?? null;
+    $rola           =           $_SESSION['rola'] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="eu">

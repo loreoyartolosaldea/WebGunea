@@ -23,14 +23,14 @@
 
             // Saioan dagoen gidariaren NAN-a eskuratu
             // Aldagaiaren izena 'gidari_nan' izan dadin zuzendu da.
-            $nan = $_SESSION['gidari_nan']; 
+            $nan            =           $_SESSION['gidari_nan']; 
 
-            $mezua = ''; // Mezuak gordetzeko aldagaia hasieratu
+            $mezua          =           ''; // Mezuak gordetzeko aldagaia hasieratu
 
             // Bidaia bat amaitu dela adierazten duen formularioa bidali bada
             if (isset($_POST['bukatuta']) && isset($_POST['bidaia_id'])) 
             {
-                $bidaiaId = $_POST['bidaia_id'];
+                $bidaiaId           =           $_POST['bidaia_id'];
 
                 // Bidaiaren egoera 'eginda' egoerara eguneratzeko kontsulta
                 // Egoera 'eginda' jarri eta 'Amaiera_ordua' uneko ordua bezala ezarri (CURTIME() erabiliz)
