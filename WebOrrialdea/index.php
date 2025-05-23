@@ -40,7 +40,8 @@
       }
 
       /* Goiburuko nagusiko paragrafoetarako estiloak */
-      header.masthead p {
+      header.masthead p 
+      {
         font-size: 1.5rem;
         max-width: 700px;
         margin: 0 auto 3rem;
