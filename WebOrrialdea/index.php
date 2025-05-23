@@ -11,7 +11,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <style>
-      header.masthead {
+      header.masthead 
+      {
         background-image: url('Argazkia/taxi.jpg');
         background-size: cover;
         background-position: center;
@@ -19,7 +20,8 @@
         position: relative;
       }
 
-      #mainNav {
+      #mainNav 
+      {
         background-color: rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
@@ -28,25 +30,29 @@
       }
 
       #mainNav .nav-link,
-      #mainNav .navbar-brand {
+      #mainNav .navbar-brand 
+      {
         color: #000 !important;
         font-weight: 500;
       }
 
       .masthead h1,
-      .masthead p {
+      .masthead p 
+      {
         color: white;
         text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
       }
 
-      .divider {
+      .divider 
+      {
         border-top: 2px solid #fff;
         opacity: 0.6;
         width: 60px;
         margin: 20px auto;
       }
 
-      .fondoko_esaldia {
+      .fondoko_esaldia 
+      {
         background-color: rgba(0, 0, 0, 0.5);
         color: #fff;
         padding: 15px 20px;
@@ -56,7 +62,8 @@
         font-size: 1.2rem;
       }
 
-      .abisua-kutxa {
+      .abisua-kutxa 
+      {
         background-color: #fff3cd;
         border-left: 6px solid #ffc107;
         padding: 15px 20px;
@@ -67,12 +74,14 @@
         text-align: left;
       }
 
-      .abisua-kutxa ul {
+      .abisua-kutxa ul 
+      {
         padding-left: 20px;
         margin-bottom: 0;
       }
 
-      .abisua-kutxa li {
+      .abisua-kutxa li 
+      {
         margin-bottom: 8px;
       }
     </style>
@@ -81,19 +90,20 @@
   <body id="page-top">
 
     <?php
-    session_start();
-    require_once './DatuBaseaKonexioa/konexioa.php';
+      session_start();
+      require_once './DatuBaseaKonexioa/konexioa.php';
 
-    $izena = $_SESSION['izena'] ?? null;
-    $rola = $_SESSION['rola'] ?? null;
-    $nan = $_SESSION['Gidari_nan'] ?? null;
-    $abisuak = [];
+      $izena = $_SESSION['izena'] ?? null;
+      $rola = $_SESSION['rola'] ?? null;
+      $nan = $_SESSION['Gidari_nan'] ?? null;
+      $abisuak = [];
 
-    if ($rola === 'gidaria' && $nan) {
-      $stmt = $pdo->prepare("SELECT Mezua, Sortze_data FROM Abisuak WHERE Gidari_NAN = ? ORDER BY Sortze_data DESC");
-      $stmt->execute([$nan]);
-      $abisuak = $stmt->fetchAll();
-    }
+      if ($rola === 'gidaria' && $nan) 
+      {
+        $stmt = $pdo->prepare("SELECT Mezua, Sortze_data FROM Abisuak WHERE Gidari_NAN = ? ORDER BY Sortze_data DESC");
+        $stmt->execute([$nan]);
+        $abisuak = $stmt->fetchAll();
+      }
     ?>
 
     <!-- Nabigazio Barra -->
