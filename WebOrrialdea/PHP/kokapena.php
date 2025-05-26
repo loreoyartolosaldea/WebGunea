@@ -40,19 +40,18 @@
                                 <a class="nav-link" href="#">👋 Kaixo, <?= htmlspecialchars($izena) ?>!</a>
                             </li>
                             <?php if ($rola === 'erabiltzailea'): ?>
-                                <li class="nav-item"><a class="nav-link" href="./PHP/bidaiaSortu.php">Bidaia Programatu</a></li>
-                                <li class="nav-item"><a class="nav-link" href="./PHP/bidaienHistoriala.php">Nire Bidaiak</a></li>
+                                <li class="nav-item"><a class="nav-link" href="bidaiaSortu.php">Bidaia Programatu</a></li>
+                                <li class="nav-item"><a class="nav-link" href="bidaienHistoriala.php">Nire Bidaiak</a></li>
                             <?php elseif ($rola === 'gidaria'): ?>
-                                <li class="nav-item"><a class="nav-link" href="./PHP/gidariaBidaienKudeaketa.php">Bidaien Kudeaketa</a></li>
-                                <li class="nav-item"><a class="nav-link" href="./PHP/gidariBidaiakHistoriala.php">Bidaien historiala</a></li>
+                                <li class="nav-item"><a class="nav-link" href="gidariaBidaienKudeaketa.php">Bidaien Kudeaketa</a></li>
+                                <li class="nav-item"><a class="nav-link" href="gidariBidaiakHistoriala.php">Bidaien historiala</a></li>
                             <?php endif; ?>
-                            <li class="nav-item"><a class="nav-link" href="./PHP/saioaItxi.php">Saioa Itxi</a></li>
+                            <li class="nav-item"><a class="nav-link" href="PHP/saioaItxi.php">Saioa Itxi</a></li>
                         <?php else: ?>
-                            <li class="nav-item"><a class="nav-link" href="./PHP/erregistroaErabiltzailea.php">Erabiltzaile erregistroa</a></li>
-                            <li class="nav-item"><a class="nav-link" href="./PHP/saioaErabiltzailea.php">Erabiltzaile login</a></li>
-                            <li class="nav-item"><a class="nav-link" href="./PHP/saioaGidaria.php">Gidari login</a></li>
-                            <li class="nav-item"><a class="nav-link" href="./PHP/gidariErregistroa.php">Gidari erregistroa</a></li>
-                            <li class="nav-item"><a class="nav-link" href="./PHP/norGara.php">Nor gara</a></li>
+                            <li class="nav-item"><a class="nav-link" href="erregistroaErabiltzailea.php">Erabiltzaile erregistroa</a></li>
+                            <li class="nav-item"><a class="nav-link" href="saioaErabiltzailea.php">Erabiltzaile login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="saioaGidaria.php">Gidari login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="norGara.php">Nor gara</a></li>
                         <?php endif; ?>
                     </ul>
                 </div>
