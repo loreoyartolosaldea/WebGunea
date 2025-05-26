@@ -260,37 +260,38 @@
     <body id="page-top">
 
           <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-        <div class="container px-4 px-lg-5">
-          <a class="navbar-brand" href="#page-top">alaikToMUGI</a>
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-            aria-label="Menua aldatu">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+  <div class="container px-4 px-lg-5">
+    <a class="navbar-brand" href="#page-top">alaikToMUGI</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Menua aldatu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto my-2 my-lg-0">
+        <?php if ($izena): ?>
+          <li class="nav-item">
+            <a class="nav-link" href="#">👋 Kaixo, <?= htmlspecialchars($izena) ?>!</a>
+          </li>
+          <?php if ($rola === 'erabiltzailea'): ?>
+            <li class="nav-item"><a class="nav-link" href="./PHP/bidaiaSortu.php">Bidaia programatu</a></li>
+            <li class="nav-item"><a class="nav-link" href="./PHP/bidaienHistoriala.php">Nire bidaiak</a></li>
+          <?php elseif ($rola === 'gidaria'): ?>
+            <li class="nav-item"><a class="nav-link" href="./PHP/gidariaBidaienKudeaketa.php">Bidaien kudeaketa</a></li>
+            <li class="nav-item"><a class="nav-link" href="./PHP/gidariBidaiakHistoriala.php">Historiala</a></li>
+          <?php endif; ?>
+          <li class="nav-item"><a class="nav-link" href="./PHP/saioaItxi.php">Saioa itxi</a></li>
+        <?php else: ?>
+          <li class="nav-item"><a class="nav-link" href="./PHP/erregistroaErabiltzailea.php">Erregistroa</a></li>
+          <li class="nav-item"><a class="nav-link" href="./PHP/saioaErabiltzailea.php">Saioa hasi (erabiltzailea)</a></li>
+          <li class="nav-item"><a class="nav-link" href="./PHP/saioaGidaria.php">Saioa hasi (gidaria)</a></li>
+          <li class="nav-item"><a class="nav-link" href="./PHP/norGara.php">Nor gara</a></li>
+          <li class="nav-item"><a class="nav-link" href="./PHP/kokapena.php">Kokapena</a></li>
+        <?php endif; ?>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto my-2 my-lg-0">
-              <?php if ($izena): /* Erabiltzailea logeatuta badago */ ?>
-                <li class="nav-item"><a class="nav-link" href="#">👋 Kaixo, <?= htmlspecialchars($izena) ?>!</a></li>
-                <?php if ($rola === 'erabiltzailea'): /* Rola erabiltzailea bada */ ?>
-                  <li class="nav-item"><a class="nav-link" href="./PHP/bidaiaSortu.php">Bidaia programatu</a></li>
-                  <li class="nav-item"><a class="nav-link" href="./PHP/bidaienHistoriala.php">Nire bidaiak</a></li>
-                <?php elseif ($rola === 'gidaria'): /* Rola gidaria bada */ ?>
-                  <li class="nav-item"><a class="nav-link" href="./PHP/gidariaBidaienKudeaketa.php">Bidaien kudeaketa</a></li>
-                  <li class="nav-item"><a class="nav-link" href="./PHP/gidariBidaiakHistoriala.php">Historiala</a></li>
-                <?php endif; ?>
-                <li class="nav-item"><a class="nav-link" href="./PHP/saioaItxi.php">Saioa itxi</a></li>
-              <?php else: /* Erabiltzailea logeatuta ez badago */ ?>
-                <li class="nav-item"><a class="nav-link" href="./PHP/erregistroaErabiltzailea.php">Erregistroa</a></li>
-                <li class="nav-item"><a class="nav-link" href="./PHP/saioaErabiltzailea.php">Saioa hasi (erabiltzailea)</a></li>
-                <li class="nav-item"><a class="nav-link" href="./PHP/saioaGidaria.php">Saioa hasi (gidaria)</a></li>
-                <li class="nav-item"><a class="nav-link" href="./PHP/norGara.php">Nor gara</a></li>
-                <li class="nav-item"><a class="nav-link" href="./PHP/kokapena.php">Kokapena</a></li>
-              <?php endif; ?>
-            </ul>
-          </div>
-        </div>
-      </nav>
 
           <header class="masthead">
         <div class="container px-4 px-lg-5">
@@ -419,6 +420,10 @@
         </div>
       </footer>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcOdihvfOQ7pNnNq+1uI" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+
+
+        
+
     </body>
 </html>
