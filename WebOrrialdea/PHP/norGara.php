@@ -47,7 +47,6 @@
               <li class="nav-item"><a class="nav-link" href="../PHP/erregistroaErabiltzailea.php">Erabiltzailearen erregistroa</a></li>
               <li class="nav-item"><a class="nav-link" href="../PHP/saioaErabiltzailea.php">Erabiltzailearen saioa hasi</a></li>
               <li class="nav-item"><a class="nav-link" href="../PHP/saioaGidaria.php">Gidariaren saioa hasi</a></li>
-              <li class="nav-item"><a class="nav-link" href="../PHP/gidariErregistroa.php">Gidariaren erregistroa</a></li>
             <?php endif; ?>
           </ul>
         </div>
